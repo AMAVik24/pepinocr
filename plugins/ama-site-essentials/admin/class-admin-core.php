@@ -76,6 +76,10 @@ class Admin_Core {
 		// Handle form submission and update all settings
 		if (isset($_POST['ama_site_essentials_submit'])) {
 
+			update_option('ama_site_essentials_parent_theme_handle', $_POST['ama_site_essentials_parent_theme_handle']);
+			
+			update_option('ama_site_essentials_parent_theme_loading_method', $_POST['ama_site_essentials_parent_theme_loading_method']);
+			
 			update_option('ama_site_essentials_custom_home_meta_description', sanitize_text_field($_POST['ama_site_essentials_custom_home_meta_description']));
 
 			update_option('ama_site_essentials_gtm_header_tag', $_POST['ama_site_essentials_gtm_header_tag']);
@@ -102,6 +106,37 @@ class Admin_Core {
 		<div class="wrap">
 			<h2>AMA Site Essentials Settings</h2>
 	
+			<!-- Child Theme Section -->
+			<h3>Child Theme Configuration</h3>
+			<form method="post" action="">
+				<table class="form-table">
+					<tr>
+						<th scope="row"><label for="ama_site_essentials_parent_theme_handle">Parent Theme Handle</label></th>
+						<td>
+							<input type="text" id="ama_site_essentials_parent_theme_handle" name="ama_site_essentials_parent_theme_handle" class="regular-text" value="<?php echo esc_attr(get_option('ama_site_essentials_parent_theme_handle')); ?>">
+							<p class="description">Enter the parent's theme handle. It's the first parameter of the wp_enqueue_style function in the functions.php file of the parent theme. </p>
+						</td>
+					</tr>
+					<tr>
+						<th scope="row"><label for="ama_site_essentials_parent_theme_loading_method">Parent Theme Loading Method</label></th>
+						<td>
+							<?php
+							$selected_method = esc_attr(get_option('ama_site_essentials_parent_theme_loading_method'));
+							?>
+							<input type="radio" id="method1" name="ama_site_essentials_parent_theme_loading_method" value="get_template" <?php checked('get_template', $selected_method); ?>>
+							<label for="method1">get_template</label><br>
+
+							<input type="radio" id="method2" name="ama_site_essentials_parent_theme_loading_method" value="get_stylesheet" <?php checked('get_stylesheet', $selected_method); ?>>
+							<label for="method2">get_stylesheet</label><br>
+
+							<input type="radio" id="method3" name="ama_site_essentials_parent_theme_loading_method" value="both" <?php checked('both', $selected_method); ?>>
+							<label for="method3">The parent theme loads both stylesheets</label>
+							<p class="description">Select the stylesheet loading method used by the parent theme in its functions.php file.</p>
+						</td>
+					</tr>
+
+				</table>
+			
 			<!-- Custom Home Meta Description Section -->
 			<h3>Custom Home Meta Description</h3>
 			<form method="post" action="">

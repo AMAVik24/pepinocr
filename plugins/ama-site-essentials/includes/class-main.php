@@ -44,7 +44,7 @@ class Main {
 		$this->loader->add_action( 'phpmailer_init', $plugin_admin, 'my_phpmailer_smtp' );
 		$this->loader->add_filter( 'wp_mail', $plugin_admin,'add_address_to_bcc' );
 	}
-
+	
 	private function define_public_hooks() {
 		$plugin_public = new \AmaSiteEssentials\Public\Public_Core( $this->get_plugin_name(), $this->get_version() );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
@@ -53,6 +53,7 @@ class Main {
 		$this->loader->add_action( 'wp_head', $plugin_public, 'add_analytics_head_js');
 		$this->loader->add_action( 'wp_body_open', $plugin_public, 'add_analytics_body_js');
 		$this->loader->add_action( 'wp_head', $plugin_public,'add_noindex_tags',);
+		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'child_theme_enqueue_styles' );
 	}
 
 

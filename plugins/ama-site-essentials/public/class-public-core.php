@@ -101,4 +101,43 @@ class Public_Core {
 		echo '<meta name="robots" content="noindex,follow">';
 	}
 
+	/**
+	 * AESTHETICS RELATED FUNCTIONS
+	 */
+
+
+	// Defines what method of stylesheet enqueuing should be used based on the loading method used by the parten theme.
+
+	function child_theme_enqueue_styles() {
+
+		if (get_option( 'ama_site_essentials_parent_theme_loading_method' ) == "get_template") {
+
+
+		wp_enqueue_style( 'child-style',
+			get_stylesheet_uri(),
+			array( get_option( 'ama_site_essentials_parent_theme_handle' ) ),
+			wp_get_theme()->get( 'Version' ) // This only works if you have Version defined in the style header.
+		);
+
+		} elseif (get_option( 'ama_site_essentials_parent_theme_loading_method' ) == "get_stylesheet") {
+
+			
+				$parenthandle = get_option( 'ama_site_essentials_parent_theme_handle' ); // This is 'twentyfifteen-style' for the Twenty Fifteen theme.
+				$theme        = wp_get_theme();
+				wp_enqueue_style( $parenthandle,
+					get_template_directory_uri() . '/style.css',
+					array(),  // If the parent theme code has a dependency, copy it to here.
+					$theme->parent()->get( 'Version' )
+				);
+				wp_enqueue_style( 'child-style',
+					get_stylesheet_uri(),
+					array( $parenthandle ),
+					$theme->get( 'Version' ) // This only works if you have Version defined in the style header.
+				);
+		} else {
+			// Left blank intentionally since no enqueuing method for the child stylesheet is required.
+		}
+
+	}
+
 }
