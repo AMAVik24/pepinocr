@@ -54,17 +54,6 @@ class Admin_Core {
 		);
 	}
 
-	public function add_admin_menu2() {
-		add_menu_page(
-			'AMA Site Essentials2',
-			'AMA Site Essentials2',
-			'manage_options',
-			'ama-site-essentials-settings2',
-			array( $this, 'settings_page' )
-		);
-	}
-
-
 	/**
 	 * ADMIN PAGE RELATED FUNCTIONS
 	 */
@@ -144,8 +133,8 @@ class Admin_Core {
 					<tr>
 						<th scope="row"><label for="ama_site_essentials_custom_home_meta_description">Custom Home Meta Description</label></th>
 						<td>
-							<textarea id="ama_site_essentials_custom_home_meta_description" name="ama_site_essentials_custom_home_meta_description" class="regular-text" rows="4" placeholder="Esta es la página web de XXXXXX, un pequeño negocio enfocado en XXXXX."><?php echo esc_attr(get_option('ama_site_essentials_custom_home_meta_description')); ?></textarea>
-							<p class="description">Enter the custom meta description text for your home page.</p>
+							<textarea id="ama_site_essentials_custom_home_meta_description" name="ama_site_essentials_custom_home_meta_description" class="regular-text" rows="4" maxlength="160" placeholder="Esta es la página web de XXXXXX, un pequeño negocio enfocado en XXXXX."><?php echo esc_attr(get_option('ama_site_essentials_custom_home_meta_description')); ?></textarea>
+							<p class="description">Write a short, 160 character summary of your website/business.</p>
 						</td>
 					</tr>
 				</table>
@@ -235,6 +224,51 @@ class Admin_Core {
 		return ob_get_clean();
 	}
 
+
+	// Add a custom meta description field to the post edit area
+	function add_custom_meta_description_field() {
+
+		$screens = array( 'post', 'page' );
+
+		// an add_meta_box function is required per screen type, so a foreach loop is required to have the meta box in both the posts and pages. 
+		foreach ( $screens as $screen ) {
+			add_meta_box(
+				'ama_site_essentials_meta_description',
+				'AMA Site Essentials - Meta Description',
+				array( $this,'render_custom_meta_description_field' ),
+				$screen,
+				'normal',
+				'high'
+			);
+		}
+	}
+
+	// Render the custom meta description field
+	function render_custom_meta_description_field($post) {
+		// Get the saved meta description if it exists
+		$meta_description = get_post_meta($post->ID, '_ama_site_essentials_meta_description', true);
+
+		// Output the field HTML
+		?>
+		<label for="ama_site_essentials_meta_description">Meta Description:</label> 
+		<textarea id="ama_site_essentials_meta_description" name="ama_site_essentials_meta_description" rows="3" maxlength="160" placeholder="Write a short, 160 character summary of your post/page."><?php echo esc_textarea($meta_description); ?></textarea>
+		<?php
+	}
+
+	// Save the custom meta description field data
+	function save_custom_meta_description_field($post_id) {
+
+		// Exits the function if it's just autouploading or if the user doesn't have authorization.
+		if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) return;
+		if (!current_user_can('edit_post', $post_id)) return;
+
+		// Save the meta description field value
+		if (isset($_POST['ama_site_essentials_meta_description'])) {
+			$meta_description = sanitize_text_field($_POST['ama_site_essentials_meta_description']);
+			update_post_meta($post_id, '_ama_site_essentials_meta_description', $meta_description);
+		}
+	}
+
 	/**
 	* EMAIL RELATED FUNCTIONS
 	*/
@@ -290,7 +324,7 @@ class Admin_Core {
 
 	// Checks how many login attempts have been made. If 3 or more attempts were made, it returns a WP_Error indicating that the user has reached the authentication limit.
 
-	function check_attempted_login( $user, $username, $password ) {
+	function check_attempted_login( $user ) {
 		if ( get_transient( 'ama_site_essentials_attempted_login' ) ) {
 			$datas = get_transient( 'ama_site_essentials_attempted_login' );
 			

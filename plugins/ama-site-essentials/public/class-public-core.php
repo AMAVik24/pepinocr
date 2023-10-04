@@ -55,17 +55,22 @@ class Public_Core {
 
 		if ( is_home() || is_front_page() ) {
 			$meta_description = get_option( 'ama_site_essentials_custom_home_meta_description' );
-			$content_to_be_added = '<meta name="description" content="' . esc_attr( $meta_description ) . '" />';
+			$content_to_be_added = '<meta name="description" content="' . esc_attr( $meta_description ) . '" >';
 		}
 
 		if ( is_single() || is_page() ) {
-			$description = get_post_meta( get_the_id(), 'description', true );
-			if ( ! empty( $description ) ) {
-				$meta_description = esc_html( $description );
-				$content_to_be_added = '<meta name="description" content="' . esc_attr( $meta_description ) . '" />';
+
+			// Get the saved meta description for the current post
+			$meta_description = get_post_meta(get_the_ID(), '_ama_site_essentials_meta_description', true);
+
+			// Check if a meta description exists
+			if (!empty($meta_description)) {
+				$escaped_meta_description = esc_html( $meta_description );
+				$content_to_be_added = '<meta name="description" content="' . esc_attr($escaped_meta_description) . '">';
 			}
-		}
+
 		return $content_to_be_added;
+		}
 	}
 
 	// Outputs the meta description to be used in the wp_head hook
