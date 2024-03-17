@@ -17,10 +17,7 @@ class i18n {
 	 * @since    1.0.0
 	 */
 	public function load_plugin_textdomain() {
-		load_plugin_textdomain(
-			'ama-site-essentials',
-			false,
-			dirname( dirname( plugin_basename( __FILE__ ) ) ) . '/languages/'
-		);
+		$plugin_rel_path = dirname( plugin_basename( dirname( __FILE__ ) ) ) . '/languages'; /* Relative to WP_PLUGIN_DIR */
+		load_plugin_textdomain( 'ama-site-essentials', false, $plugin_rel_path );
 	}
 }

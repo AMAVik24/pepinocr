@@ -1,32 +1,36 @@
-(function( $ ) {
-	'use strict';
+jQuery(function($) {
 
 	/**
-	 * All of the code for your admin-facing JavaScript source
-	 * should reside in this file.
-	 *
-	 * Note: It has been assumed you will write jQuery code here, so the
-	 * $ function reference has been prepared for usage within the scope
-	 * of this function.
-	 *
-	 * This enables you to define handlers, for when the DOM is ready:
-	 *
-	 * $(function() {
-	 *
-	 * });
-	 *
-	 * When the window is loaded:
-	 *
-	 * $( window ).load(function() {
-	 *
-	 * });
-	 *
-	 * ...and/or other possibilities.
-	 *
-	 * Ideally, it is not considered best practise to attach more than a
-	 * single DOM-ready or window-load handler for a particular page.
-	 * Although scripts in the WordPress core, Plugins and Themes may be
-	 * practising this, we should strive to set a better example in our own work.
+	 * All of the code for your admin-facing JavaScript 
 	 */
 
-})( jQuery );
+	// Hides/Shows the fields for physical businesses.
+
+	// Get the initial selected value
+	var initialValue = $("input[name='ama_site_essentials_business_type']:checked").val();
+
+    // Show/hide rows based on the initial value
+    toggleRows(initialValue);
+
+    // Attach an event listener to the radio buttons
+    $("input[name='ama_site_essentials_business_type']").change(function () {
+        // Get the selected value
+        var selectedValue = $(this).val();
+
+        // Show/hide rows based on the selected value
+        toggleRows(selectedValue);
+    });
+
+	function toggleRows(value) {
+		// Get the container div
+		var containerDiv = $("#business_information");
+	
+		// Check if the current state is different from the target state
+		if ((containerDiv.is(':visible') && (value !== 'physical' && value !== 'online_and_physical')) ||
+			(!containerDiv.is(':visible') && (value === 'physical' || value === 'online_and_physical'))) {
+			// Hide or show the entire container without animation
+			containerDiv.stop().slideToggle();
+		}
+		// If the current state is the same as the target state, do nothing
+	}	
+});

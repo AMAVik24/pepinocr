@@ -1,11 +1,6 @@
 <?php
 /**
- * Register all actions and filters for the plugin.
- *
- * Maintain a list of all hooks that are registered throughout
- * the plugin, and register them with the WordPress API. Call the
- * run function to execute the list of actions and filters.
-
+ * This class makes it easier to group all the hooks in the main file.
  */
 
 namespace AmaSiteEssentials\Includes;

@@ -10,8 +10,8 @@
  * Author URI: https://andreasmasis.com
  * License: GPL v2 or later
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
- * Text Domain: pdev
- * Domain Path: /public/lang
+ * Text Domain: ama-site-essentials
+ * Domain Path: /languages
  */
 /*
 Copyright (C) <2023> <Andreas Masis> 
@@ -33,18 +33,6 @@ define('AMA_SITE_ESSENTIALS_DIR', plugin_dir_path(__FILE__));
 
 require_once AMA_SITE_ESSENTIALS_DIR . 'includes/class-autoloader.php';
 new \AmaSiteEssentials\Includes\Autoloader();
-
-// Register activation and deactivation hooks invoking the methods statically, so creating an instance of the classes is not needed
-function main_activate() {
-	\AmaSiteEssentials\Includes\Activator::activate();
-}
-	
-register_activation_hook( __FILE__, __NAMESPACE__ . '\main_activate');
-	
-function main_deactivate() {
-	\AmaSiteEssentials\Includes\Deactivator::deactivate();
-}
-register_deactivation_hook( __FILE__, __NAMESPACE__ . '\main_deactivate');
 
 //Includes the core plugin class that is used to define internationalization, admin-specific hooks, and public-facing site hooks.
 

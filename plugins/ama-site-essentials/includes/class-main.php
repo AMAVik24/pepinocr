@@ -51,10 +51,10 @@ class Main {
 		$plugin_public = new \AmaSiteEssentials\Public\Public_Core( $this->get_plugin_name(), $this->get_version() );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
-		$this->loader->add_action( 'wp_head', $plugin_public, 'output_custom_meta_description');
+		$this->loader->add_action( 'wp_head', $plugin_public, 'output_custom_meta_description_and_schema');
 		$this->loader->add_action( 'wp_head', $plugin_public, 'add_analytics_head_js');
 		$this->loader->add_action( 'wp_body_open', $plugin_public, 'add_analytics_body_js');
-		$this->loader->add_action( 'wp_head', $plugin_public,'add_noindex_tags',);
+		$this->loader->add_action( 'wp_head', $plugin_public,'add_noindex_tags');
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'child_theme_enqueue_styles' );
 	}
 

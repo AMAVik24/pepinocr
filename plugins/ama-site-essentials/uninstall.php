@@ -19,7 +19,7 @@ if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 	exit;
 }
 
-delete_option('ama_site_essentials_custom_home_meta_description');
+/* delete_option('ama_site_essentials_custom_home_meta_description');
 delete_option('ama_site_essentials_gtm_header_tag');
 delete_option('ama_site_essentials_gtm_body_tag');
 delete_option('ama_site_essentials_smtp_username');
@@ -29,4 +29,4 @@ delete_option('ama_site_essentials_smtp_name');
 delete_option('ama_site_essentials_smtp_server');
 delete_option('ama_site_essentials_smtp_port');
 delete_option('ama_site_essentials_smtp_secure');
-delete_option('ama_site_essentials_test');
+delete_option('ama_site_essentials_test'); */

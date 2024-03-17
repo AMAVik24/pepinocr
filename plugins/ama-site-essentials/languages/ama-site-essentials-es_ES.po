@@ -1,0 +1,29 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: ama-site-essentials-i18n\n"
+"POT-Creation-Date: 2024-03-16 08:02-0600\n"
+"PO-Revision-Date: 2024-03-16 15:08-0600\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: es_ES\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.3.1\n"
+"X-Poedit-Basepath: ../admin\n"
+"X-Poedit-KeywordsList: _e;__\n"
+"X-Poedit-SearchPath-0: class-admin-core.php\n"
+
+#: class-admin-core.php:134
+msgid "AMA Site Essentials Settings"
+msgstr "Configuración de AMA Site Essentials"
+
+#: class-admin-core.php:492
+#, php-format
+msgid ""
+"<strong>ERROR</strong>: You have reached authentication limit, you will be "
+"able to try again in %1$s."
+msgstr ""
+"<strong>ERROR</strong>: Ha alcanzado el límite de intentos, podrá intentarlo "
+"de nuevo en  %1$s."

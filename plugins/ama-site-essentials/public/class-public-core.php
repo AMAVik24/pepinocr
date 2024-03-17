@@ -49,34 +49,87 @@ class Public_Core {
 
 	// Generates a custom meta description to be added to each page, based on if it's the home page or any post.
 
-	public function add_custom_meta_description() {
+	public function add_custom_meta_description_and_schema() {
 
 		$content_to_be_added = '';
 
 		if ( is_home() || is_front_page() ) {
+			// Generate JSON-LD schema for the homepage
+			$content_to_be_added = $this->generate_json_ld_schema();
+			
 			$meta_description = get_option( 'ama_site_essentials_custom_home_meta_description' );
-			$content_to_be_added = '<meta name="description" content="' . esc_attr( $meta_description ) . '" >';
 		}
 
-		if ( is_single() || is_page() ) {
-
+		else {
 			// Get the saved meta description for the current post
-			$meta_description = get_post_meta(get_the_ID(), '_ama_site_essentials_meta_description', true);
-
-			// Check if a meta description exists
-			if (!empty($meta_description)) {
-				$escaped_meta_description = esc_html( $meta_description );
-				$content_to_be_added = '<meta name="description" content="' . esc_attr($escaped_meta_description) . '">';
-			}
-
-		return $content_to_be_added;
+			$meta_description = get_post_meta( get_the_ID(), '_ama_site_essentials_meta_description', true );
 		}
+		// Check if a meta description exists
+		if (!empty( $meta_description )) {
+			$content_to_be_added .= '<meta name="description" content="' . esc_attr( $meta_description ) . '">';
+		}
+		return $content_to_be_added;
 	}
 
-	// Outputs the meta description to be used in the wp_head hook
+	// Outputs the meta description and JSON-LD schema to be used in the wp_head hook
+	public function output_custom_meta_description_and_schema() {
+    echo $this->add_custom_meta_description_and_schema();
+	}
 
-	public function output_custom_meta_description() {
-		echo $this->add_custom_meta_description();
+	// Generates the schema markup based on the options stored in the plugin settings page
+
+	function generate_json_ld_schema() {
+
+		$prepared_data = $this -> prepare_data_for_json();
+
+		// Define your schema data using the provided fields
+		$schema = array(
+			'@context' => 'http://schema.org',
+			'@type' => 'LocalBusiness',
+			'address' => array(
+				'@type' => 'PostalAddress',
+				'streetAddress' => get_option('ama_site_essentials_business_physical_address'),
+				'addressRegion' => get_option('ama_site_essentials_business_region'),
+				'postalCode' => get_option('ama_site_essentials_business_postal_code'),
+				'addressCountry' => get_option('ama_site_essentials_business_country')
+			),
+			'geo' => array(
+				'@type' => 'GeoCoordinates',
+				'latitude' => trim($prepared_data['latitude']),
+				'longitude' => trim($prepared_data['longitude'])
+			),
+			'openingHoursSpecification' => array(
+				array(
+					'@type' => 'OpeningHoursSpecification',
+					'dayOfWeek' => get_option('ama_site_essentials_business_open_days'),
+					'opens' => get_option('ama_site_essentials_business_opening_hour'),
+					'closes' => get_option('ama_site_essentials_business_closing_hour')
+				),
+			),
+			'name' => get_option('blogname'),
+			'url' => get_option('siteurl'),
+			'telephone' => get_option('ama_site_essentials_business_phone_number'),
+		);
+	
+		// Convert schema array to JSON format
+		$json_ld = json_encode($schema);
+	
+		// Output the JSON-LD script tag in the head of the document
+		return '<script type="application/ld+json">' . $json_ld . '</script>';
+	}
+
+	function prepare_data_for_json() {
+		// Get the geolocation data from the option
+		$geolocation_data = get_option('ama_site_essentials_business_geolocation');
+		// Check if geolocation data exists and is not empty
+		if ($geolocation_data) {
+			// Split the geolocation string into latitude and longitude values
+			$geolocation_values = explode(',', $geolocation_data);
+			$latitude = trim($geolocation_values[0]);
+            $longitude = trim($geolocation_values[1]);
+		}
+		// Return the data as an array
+		return array('latitude' => $latitude, 'longitude' => $longitude);
 	}
 
 	// Adds the GTM header tag to all the headers
@@ -111,7 +164,7 @@ class Public_Core {
 	 */
 
 
-	// Defines what method of stylesheet enqueuing should be used based on the loading method used by the parten theme.
+	// Defines what method of stylesheet enqueuing should be used based on the loading method used by the parent theme.
 
 	function child_theme_enqueue_styles() {
 
@@ -145,4 +198,6 @@ class Public_Core {
 
 	}
 
+	
+	
 }
