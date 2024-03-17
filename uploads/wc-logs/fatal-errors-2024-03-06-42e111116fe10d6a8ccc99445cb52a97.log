@@ -1,0 +1,20 @@
+2024-03-06T01:48:58+00:00 CRITICAL Uncaught TypeError: implode(): Argument #1 ($pieces) must be of type array, string given in /var/www/html/wp-content/plugins/ama-site-essentials/admin/class-admin-core.php:90
+Stack trace:
+#0 /var/www/html/wp-content/plugins/ama-site-essentials/admin/class-admin-core.php(90): implode(', ', NULL)
+#1 /var/www/html/wp-includes/class-wp-hook.php(308): AmaSiteEssentials\Admin\Admin_Core->settings_page('')
+#2 /var/www/html/wp-includes/class-wp-hook.php(332): WP_Hook->apply_filters('', Array)
+#3 /var/www/html/wp-includes/plugin.php(517): WP_Hook->do_action(Array)
+#4 /var/www/html/wp-admin/admin.php(259): do_action('toplevel_page_a...')
+#5 {main}
+  thrown in /var/www/html/wp-content/plugins/ama-site-essentials/admin/class-admin-core.php on line 90
+
+2024-03-06T03:00:19+00:00 CRITICAL Uncaught TypeError: implode(): Argument #1 ($pieces) must be of type array, string given in /var/www/html/wp-content/plugins/ama-site-essentials/admin/class-admin-core.php:90
+Stack trace:
+#0 /var/www/html/wp-content/plugins/ama-site-essentials/admin/class-admin-core.php(90): implode(', ', NULL)
+#1 /var/www/html/wp-includes/class-wp-hook.php(308): AmaSiteEssentials\Admin\Admin_Core->settings_page('')
+#2 /var/www/html/wp-includes/class-wp-hook.php(332): WP_Hook->apply_filters('', Array)
+#3 /var/www/html/wp-includes/plugin.php(517): WP_Hook->do_action(Array)
+#4 /var/www/html/wp-admin/admin.php(259): do_action('toplevel_page_a...')
+#5 {main}
+  thrown in /var/www/html/wp-content/plugins/ama-site-essentials/admin/class-admin-core.php on line 90
+
