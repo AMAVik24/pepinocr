@@ -43,7 +43,9 @@ class Admin_Core {
         wp_enqueue_script( $this->plugin_name .'-admin', plugin_dir_url( __FILE__ ) . 'js/admin.js', array( 'jquery' ), $this->version, false );
     }
 	
-	/* Create an Admin Page for settings*/
+	/**
+	 * Add an admin menu for settings.
+	 */
 	public function add_admin_menu() {
 		add_menu_page(
 			'AMA Site Essentials',
@@ -55,43 +57,32 @@ class Admin_Core {
 	}
 
 	/**
-	 * ADMIN PAGE RELATED FUNCTIONS
+	 * Callback function to display settings page.
 	 */
-
-	
-	// Creates the html form for the admin settings page
 	public function settings_page() {
-
+		// Define days of the week for use in checkboxes
 		$days_of_week = array('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday');
 
+		$days_of_week_translated = array(__('Monday', 'ama-site-essentials'), __('Tuesday', 'ama-site-essentials'), __('Wednesday', 'ama-site-essentials'), __('Thursday', 'ama-site-essentials'), __('Friday', 'ama-site-essentials'), __('Saturday', 'ama-site-essentials'), __('Sunday', 'ama-site-essentials'));
+	
 		// Handle form submission and update all settings
 		if (isset($_POST['ama_site_essentials_submit'])) {
-
-			// Custom Home Meta Description Section
-			update_option('ama_site_essentials_custom_home_meta_description', sanitize_text_field($_POST['ama_site_essentials_custom_home_meta_description']));
-
-			// Schema Markup Section
-			update_option('ama_site_essentials_business_type', $_POST['ama_site_essentials_business_type']);
-
-			update_option('ama_site_essentials_business_country', sanitize_text_field($_POST['ama_site_essentials_business_country']));
-			
-			update_option('ama_site_essentials_business_region', sanitize_text_field($_POST['ama_site_essentials_business_region']));
-
-			update_option('ama_site_essentials_business_postal_code', sanitize_text_field($_POST['ama_site_essentials_business_postal_code']));
-			
-			update_option('ama_site_essentials_business_physical_address', sanitize_text_field($_POST['ama_site_essentials_business_physical_address']));
-
-			update_option('ama_site_essentials_business_geolocation', sanitize_text_field($_POST['ama_site_essentials_business_geolocation']));
-
-			update_option('ama_site_essentials_business_phone_number', sanitize_text_field($_POST['ama_site_essentials_business_phone_number']));
-
-			update_option('ama_site_essentials_business_opening_hour', $_POST['ama_site_essentials_business_opening_hour']);
-
-			update_option('ama_site_essentials_business_closing_hour', $_POST['ama_site_essentials_business_closing_hour']);
-			
-			// Creates an array of the selected open days from the checkboxes to store them as a single string in the option.
+			// Update custom home meta description
+			update_option( 'ama_site_essentials_custom_home_meta_description', sanitize_text_field( $_POST['ama_site_essentials_custom_home_meta_description'] ) );
+	
+			// Update schema markup options
+			update_option( 'ama_site_essentials_business_type', $_POST['ama_site_essentials_business_type'] );
+			update_option( 'ama_site_essentials_business_country', sanitize_text_field( $_POST['ama_site_essentials_business_country'] ) );
+			update_option( 'ama_site_essentials_business_region', sanitize_text_field( $_POST['ama_site_essentials_business_region'] ) );
+			update_option( 'ama_site_essentials_business_postal_code', sanitize_text_field( $_POST['ama_site_essentials_business_postal_code'] ) );
+			update_option( 'ama_site_essentials_business_physical_address', sanitize_text_field( $_POST['ama_site_essentials_business_physical_address'] ) );
+			update_option( 'ama_site_essentials_business_geolocation', sanitize_text_field( $_POST['ama_site_essentials_business_geolocation'] ) );
+			update_option( 'ama_site_essentials_business_phone_number', sanitize_text_field( $_POST['ama_site_essentials_business_phone_number'] ) );
+			update_option( 'ama_site_essentials_business_opening_hour', $_POST['ama_site_essentials_business_opening_hour'] );
+			update_option( 'ama_site_essentials_business_closing_hour', $_POST['ama_site_essentials_business_closing_hour'] );
+	
+			// Create an array of selected open days from the checkboxes to store them as a single string in the option
 			$new_selected_days = array();
-
 			foreach ($days_of_week as $day) {
 				// Check if the checkbox for this day is checked
 				if (isset($_POST['ama_site_essentials_business_open_day_' . $day])) {
@@ -99,264 +90,241 @@ class Admin_Core {
 					$new_selected_days[] = $_POST['ama_site_essentials_business_open_day_' . $day];
 				}
 			}
-
-			update_option('ama_site_essentials_business_open_days', implode(', ',$new_selected_days));
-			
-			// Child Theme Section
-			update_option('ama_site_essentials_parent_theme_handle', sanitize_text_field($_POST['ama_site_essentials_parent_theme_handle']));
-			
-			update_option('ama_site_essentials_parent_theme_loading_method', sanitize_text_field($_POST['ama_site_essentials_parent_theme_loading_method']));
-			
-			// Email Section
-			update_option('ama_site_essentials_smtp_username', sanitize_text_field($_POST['ama_site_essentials_smtp_username']));
-			
-			update_option('ama_site_essentials_smtp_password', $this -> my_encrypt($_POST['ama_site_essentials_smtp_password']));
-			
-			update_option('ama_site_essentials_smtp_sender', sanitize_text_field($_POST['ama_site_essentials_smtp_sender']));
-			
-			update_option('ama_site_essentials_smtp_name', sanitize_text_field($_POST['ama_site_essentials_smtp_name']));
-			
-			update_option('ama_site_essentials_smtp_server', sanitize_text_field($_POST['ama_site_essentials_smtp_server']));
-			
-			update_option('ama_site_essentials_smtp_port', sanitize_text_field($_POST['ama_site_essentials_smtp_port']));
-			
-			update_option('ama_site_essentials_smtp_secure', sanitize_text_field($_POST['ama_site_essentials_smtp_secure']));
-			
-			// Google Tag Manager Section
-			update_option('ama_site_essentials_gtm_header_tag', sanitize_text_field($_POST['ama_site_essentials_gtm_header_tag']));
-
-			update_option('ama_site_essentials_gtm_body_tag', sanitize_text_field($_POST['ama_site_essentials_gtm_body_tag']));
-			
+			update_option( 'ama_site_essentials_business_open_days', implode(', ', $new_selected_days) );
+	
+			// Update child theme options
+			update_option( 'ama_site_essentials_parent_theme_handle', sanitize_text_field( $_POST['ama_site_essentials_parent_theme_handle'] ) );
+			update_option( 'ama_site_essentials_parent_theme_loading_method', sanitize_text_field( $_POST['ama_site_essentials_parent_theme_loading_method'] ) );
+	
+			// Update email options
+			update_option( 'ama_site_essentials_smtp_username', sanitize_text_field( $_POST['ama_site_essentials_smtp_username'] ) );
+			update_option( 'ama_site_essentials_smtp_password', $this->my_encrypt( $_POST['ama_site_essentials_smtp_password'] ) ); // Encrypt password for security
+			update_option( 'ama_site_essentials_smtp_sender', sanitize_text_field( $_POST['ama_site_essentials_smtp_sender'] ) );
+			update_option( 'ama_site_essentials_smtp_name', sanitize_text_field( $_POST['ama_site_essentials_smtp_name'] ) );
+			update_option( 'ama_site_essentials_smtp_server', sanitize_text_field( $_POST['ama_site_essentials_smtp_server'] ) );
+			update_option( 'ama_site_essentials_smtp_port', sanitize_text_field( $_POST['ama_site_essentials_smtp_port'] ) );
+			update_option( 'ama_site_essentials_smtp_secure', sanitize_text_field( $_POST['ama_site_essentials_smtp_secure'] ) );
+	
+			// Update Google Tag Manager options
+			update_option( 'ama_site_essentials_gtm_header_tag', sanitize_text_field( $_POST['ama_site_essentials_gtm_header_tag'] ) );
+			update_option( 'ama_site_essentials_gtm_body_tag', sanitize_text_field( $_POST['ama_site_essentials_gtm_body_tag'] ) );
 		}
 		?>
 	
 		<div class="wrap">
-			<h2><?php _e( 'AMA Site Essentials Settings' , 'ama-site-essentials' ) ?></h2>
-			
+			<h2><?php _e( 'AMA Site Essentials Settings', 'ama-site-essentials' ); ?></h2>
+
 			<!-- Custom Home Meta Description Section -->
-			<h3>Custom Home Meta Description</h3>
+			<h3><?php _e( 'Custom Home Meta Description', 'ama-site-essentials' ); ?></h3>
 			<form method="post" action="">
 				<table class="form-table">
 					<tr>
-						<th scope="row"><label for="ama_site_essentials_custom_home_meta_description">Custom Home Meta Description</label></th>
+						<th scope="row"><label for="ama_site_essentials_custom_home_meta_description"><?php _e( 'Custom Home Meta Description', 'ama-site-essentials' ); ?></label></th>
 						<td>
-							<textarea id="ama_site_essentials_custom_home_meta_description" name="ama_site_essentials_custom_home_meta_description" class="regular-text" rows="4" maxlength="160" placeholder="Esta es la página web de XXXXXX, un pequeño negocio enfocado en XXXXX."><?php echo esc_attr(get_option('ama_site_essentials_custom_home_meta_description')); ?></textarea>
-							<p class="description">Write a short, 160 character summary of your website/business.</p>
+							<textarea id="ama_site_essentials_custom_home_meta_description" name="ama_site_essentials_custom_home_meta_description" class="regular-text" rows="4" maxlength="160" placeholder="<?php _e( 'This is the website of XXXXXX, a small business focused on XXXXX.', 'ama-site-essentials' ); ?>"><?php echo esc_attr( get_option( 'ama_site_essentials_custom_home_meta_description' ) ); ?></textarea>
+							<p class="description"><?php _e( 'Write a short, 160 character summary of your website/business.', 'ama-site-essentials' ); ?></p>
 						</td>
 					</tr>
 				</table>
 
-			<!-- Schema Markup Section -->
-			<h3>Schema Markup Configuration</h3>
-			<form method="post" action="">
+				<!-- Schema Markup Section -->
+				<h3><?php _e( 'Schema Markup Configuration', 'ama-site-essentials' ); ?></h3>
 				<table class="form-table">
 					<tr>
-						<th scope="row">Business Type</th>
+						<th scope="row"><?php _e( 'Business Type', 'ama-site-essentials' ); ?></th>
 						<td>
 							<?php
-							$selected_type = esc_attr(get_option('ama_site_essentials_business_type'));
+							$selected_type = esc_attr( get_option( 'ama_site_essentials_business_type' ) );
 							?>
-							<input type="radio" id="ama_site_essentials_business_type1" name="ama_site_essentials_business_type" value="online" <?php checked('online', $selected_type); ?>>
-							<label for="ama_site_essentials_business_type1">Online Store</label><br>
+							<input type="radio" id="ama_site_essentials_business_type1" name="ama_site_essentials_business_type" value="online" <?php checked( 'online', $selected_type ); ?>>
+							<label for="ama_site_essentials_business_type1"><?php _e( 'Online Store', 'ama-site-essentials' ); ?></label><br>
 
-							<input type="radio" id="ama_site_essentials_business_type2" name="ama_site_essentials_business_type" value="physical" <?php checked('physical', $selected_type); ?>>
-							<label for="ama_site_essentials_business_type2">Physical Store</label><br>
+							<input type="radio" id="ama_site_essentials_business_type2" name="ama_site_essentials_business_type" value="physical" <?php checked( 'physical', $selected_type ); ?>>
+							<label for="ama_site_essentials_business_type2"><?php _e( 'Physical Store', 'ama-site-essentials' ); ?></label><br>
 
-							<input type="radio" id="ama_site_essentials_business_type3" name="ama_site_essentials_business_type" value="online_and_physical" <?php checked('online_and_physical', $selected_type); ?>>
-							<label for="ama_site_essentials_business_type3">Online and Physical Store</label>
-							<p class="description">Select the type of business that better describes yours.</p>
+							<input type="radio" id="ama_site_essentials_business_type3" name="ama_site_essentials_business_type" value="online_and_physical" <?php checked( 'online_and_physical', $selected_type ); ?>>
+							<label for="ama_site_essentials_business_type3"><?php _e( 'Online and Physical Store', 'ama-site-essentials' ); ?></label>
+							<p class="description"><?php _e( 'Select the type of business that better describes yours.', 'ama-site-essentials' ); ?></p>
 						</td>
 					</tr>
 				</table>
 				<div id="business_information">
 					<table class="form-table">
 						<tr>
-							<th scope="row"><label for="ama_site_essentials_business_country">Business Country</label></th>
+							<th scope="row"><label for="ama_site_essentials_business_country"><?php _e( 'Business Country', 'ama-site-essentials' ); ?></label></th>
 							<td>
-								<input type="text" id="ama_site_essentials_business_country" name="ama_site_essentials_business_country" class="regular-text" value="<?php echo esc_attr(get_option('ama_site_essentials_business_country')); ?>">
-								<p class="description">Enter the country where your company is based</p>
+								<input type="text" id="ama_site_essentials_business_country" name="ama_site_essentials_business_country" class="regular-text" value="<?php echo esc_attr( get_option( 'ama_site_essentials_business_country' ) ); ?>">
+								<p class="description"><?php _e( 'Enter the country where your company is based', 'ama-site-essentials' ); ?></p>
 							</td>
 						</tr>
 
 						<tr>
-							<th scope="row"><label for="ama_site_essentials_business_region">Business Region</label></th>
+							<th scope="row"><label for="ama_site_essentials_business_region"><?php _e( 'Business Region', 'ama-site-essentials' ); ?></label></th>
 							<td>
-								<input type="text" id="ama_site_essentials_business_region" name="ama_site_essentials_business_region" class="regular-text" value="<?php echo esc_attr(get_option('ama_site_essentials_business_region')); ?>">
-								<p class="description">Enter the region where your company is based (i.e. San José, Guadalajara, California, etc.) </p>
+								<input type="text" id="ama_site_essentials_business_region" name="ama_site_essentials_business_region" class="regular-text" value="<?php echo esc_attr( get_option( 'ama_site_essentials_business_region' ) ); ?>">
+								<p class="description"><?php _e( 'Enter the region where your company is based (i.e. San José, Guadalajara, California, etc.)', 'ama-site-essentials' ); ?></p>
 							</td>
 						</tr>
 
 						<tr>
-							<th scope="row"><label for="ama_site_essentials_business_postal_code">Business postal code</label></th>
+							<th scope="row"><label for="ama_site_essentials_business_postal_code"><?php _e( 'Business Postal Code', 'ama-site-essentials' ); ?></label></th>
 							<td>
-								<input type="tel" id="ama_site_essentials_business_postal_code" name="ama_site_essentials_business_postal_code" value="<?php echo esc_attr(get_option('ama_site_essentials_business_postal_code')); ?>">
-								<p class="description">Set the business postal code </p>
+								<input type="tel" id="ama_site_essentials_business_postal_code" name="ama_site_essentials_business_postal_code" value="<?php echo esc_attr( get_option( 'ama_site_essentials_business_postal_code' ) ); ?>">
+								<p class="description"><?php _e( 'Set the business postal code', 'ama-site-essentials' ); ?></p>
 							</td>
 						</tr>
 
 						<tr>
-							<th scope="row"><label for="ama_site_essentials_business_physical_address">Physical Address</label></th>
+							<th scope="row"><label for="ama_site_essentials_business_physical_address"><?php _e( 'Physical Address', 'ama-site-essentials' ); ?></label></th>
 							<td>
-								<textarea id="ama_site_essentials_business_physical_address" name="ama_site_essentials_business_physical_address" class="regular-text" rows="4" placeholder="San José, Curridabat, del parque ..."><?php echo esc_attr(get_option('ama_site_essentials_business_physical_address')); ?></textarea>
-								<p class="description">Write the physical address of your business.</p>
+								<textarea id="ama_site_essentials_business_physical_address" name="ama_site_essentials_business_physical_address" class="regular-text" rows="4" placeholder="<?php _e( 'San José, Curridabat, 300 meters from ...', 'ama-site-essentials' ); ?>"><?php echo esc_textarea( get_option( 'ama_site_essentials_business_physical_address' ) ); ?></textarea>
+								<p class="description"><?php _e( 'Write the physical address of your business.', 'ama-site-essentials' ); ?></p>
 							</td>
 						</tr>
 
 						<tr>
-							<th scope="row"><label for="ama_site_essentials_business_geolocation">Geolocation</label></th>
+							<th scope="row"><label for="ama_site_essentials_business_geolocation"><?php _e( 'Geolocation', 'ama-site-essentials' ); ?></label></th>
 							<td>
-							<input type="text" id="ama_site_essentials_business_geolocation" name="ama_site_essentials_business_geolocation" class="regular-text" placeholder="00.00000000000000, 00.00000000000000" value="<?php echo esc_attr(get_option('ama_site_essentials_business_geolocation')); ?>">
-								<p class="description">Type the latitude and longitude of your business location (as given by Google Maps).</p>
+								<input type="text" id="ama_site_essentials_business_geolocation" name="ama_site_essentials_business_geolocation" class="regular-text" placeholder="00.00000000000000, 00.00000000000000" value="<?php echo esc_attr( get_option( 'ama_site_essentials_business_geolocation' ) ); ?>">
+								<p class="description"><?php _e( 'Type the latitude and longitude of your business location (as given by Google Maps).', 'ama-site-essentials' ); ?></p>
 							</td>
 						</tr>
 
 						<tr>
-							<th scope="row"><label for="ama_site_essentials_business_phone_number">Business phone number</label></th>
+							<th scope="row"><label for="ama_site_essentials_business_phone_number"><?php _e( 'Business Phone Number', 'ama-site-essentials' ); ?></label></th>
 							<td>
-								<input type="tel" id="ama_site_essentials_business_phone_number" name="ama_site_essentials_business_phone_number" pattern="[0-9]+" placeholder="88888888" value="<?php echo esc_attr(get_option('ama_site_essentials_business_phone_number')); ?>">
-								<p class="description">Set the business main phone number </p>
+								<input type="tel" id="ama_site_essentials_business_phone_number" name="ama_site_essentials_business_phone_number" pattern="[0-9]+" placeholder="88888888" value="<?php echo esc_attr( get_option( 'ama_site_essentials_business_phone_number' ) ); ?>">
+								<p class="description"><?php _e( 'Set the business main phone number.', 'ama-site-essentials' ); ?></p>
 							</td>
 						</tr>
 
 						<tr>
-							<th scope="row"><label for="ama_site_essentials_business_opening_hour">Opening Hour</label></th>
+							<th scope="row"><label for="ama_site_essentials_business_opening_hour"><?php _e( 'Opening Hour', 'ama-site-essentials' ); ?></label></th>
 							<td>
-								<input type="time" id="ama_site_essentials_business_opening_hour" name="ama_site_essentials_business_opening_hour" value="<?php echo esc_attr(get_option('ama_site_essentials_business_opening_hour')); ?>">
-								<p class="description">Specify the opening hour of your business.</p>
+								<input type="time" id="ama_site_essentials_business_opening_hour" name="ama_site_essentials_business_opening_hour" value="<?php echo esc_attr( get_option( 'ama_site_essentials_business_opening_hour' ) ); ?>">
+								<p class="description"><?php _e( 'Specify the opening hour of your business.', 'ama-site-essentials' ); ?></p>
 							</td>
 						</tr>
 
 						<tr>
-							<th scope="row"><label for="ama_site_essentials_business_closing_hour">Closing Hour</label></th>
+							<th scope="row"><label for="ama_site_essentials_business_closing_hour"><?php _e( 'Closing Hour', 'ama-site-essentials' ); ?></label></th>
 							<td>
-								<input type="time" id="ama_site_essentials_business_closing_hour" name="ama_site_essentials_business_closing_hour" value="<?php echo esc_attr(get_option('ama_site_essentials_business_closing_hour')); ?>">
-								<p class="description">Specify the closing hour of your business.</p>
+								<input type="time" id="ama_site_essentials_business_closing_hour" name="ama_site_essentials_business_closing_hour" value="<?php echo esc_attr( get_option( 'ama_site_essentials_business_closing_hour' ) ); ?>">
+								<p class="description"><?php _e( 'Specify the closing hour of your business.', 'ama-site-essentials' ); ?></p>
 							</td>
 						</tr>
+
 						<tr>
 							<th scope="row">
 								<fieldset>
-									<legend>Open Days</legend>
+									<legend><?php _e( 'Open Days', 'ama-site-essentials' ); ?></legend>
 								</fieldset>
 							</th>
 							<td>
 								<?php
-
 								// Converts the string retrieved by the get_option function and converts it to an array.
-								$past_selected_days = explode(', ', esc_attr(get_option('ama_site_essentials_business_open_days')));
+								$past_selected_days = explode( ', ', get_option( 'ama_site_essentials_business_open_days' ) );
 
-								// Generates checkboxes for each day of the week, using the checked() function to mark days selected based on the stored options.
-								foreach ($days_of_week as $day) {
+								// Generates checkboxes for each day of the week, using the checked() function to mark days selected based on the stored options. A counter is used to keep track of what day is being worked, so it can call the translated weekday as the label.
+								$i = 0;
+								foreach ( $days_of_week as $day ) {
 								?>
-									<input type="checkbox" id="ama_site_essentials_business_open_day_<?php echo $day; ?>" name="ama_site_essentials_business_open_day_<?php echo $day; ?>" value="<?php echo $day; ?>" <?php checked(in_array($day, $past_selected_days)); ?>>
-									<label for="ama_site_essentials_business_open_day_<?php echo $day; ?>"><?php echo $day; ?></label><br>
-									<?php
+									<input type="checkbox" id="ama_site_essentials_business_open_day_<?php echo $day; ?>" name="ama_site_essentials_business_open_day_<?php echo $day; ?>" value="<?php echo $day; ?>" <?php checked( in_array( $day, $past_selected_days ) ); ?>>
+									<label for="ama_site_essentials_business_open_day_<?php echo $day; ?>"><?php echo $days_of_week_translated[$i] ?></label><br>
+								<?php
+								$i++;
 								}
 								?>
-								<p class="description">Select the days when your business is open.</p>
+								<p class="description"><?php _e( 'Select the days when your business is open.', 'ama-site-essentials' ); ?></p>
 							</td>
 						</tr>
 					</table>
 				</div>
 
-			<!-- Child Theme Section -->
-			<h3>Child Theme Configuration</h3>
-			<form method="post" action="">
+				<!-- Child Theme Section -->
+				<h3><?php _e( 'Child Theme Configuration', 'ama-site-essentials' ); ?></h3>
 				<table class="form-table">
 					<tr>
-						<th scope="row"><label for="ama_site_essentials_parent_theme_handle">Parent Theme Handle</label></th>
+						<th scope="row"><label for="ama_site_essentials_parent_theme_handle"><?php _e( 'Parent Theme Handle', 'ama-site-essentials' ); ?></label></th>
 						<td>
-							<input type="text" id="ama_site_essentials_parent_theme_handle" name="ama_site_essentials_parent_theme_handle" class="regular-text" value="<?php echo esc_attr(get_option('ama_site_essentials_parent_theme_handle')); ?>">
-							<p class="description">Enter the parent's theme handle. It's the first parameter of the wp_enqueue_style function in the functions.php file of the parent theme. </p>
+							<input type="text" id="ama_site_essentials_parent_theme_handle" name="ama_site_essentials_parent_theme_handle" class="regular-text" value="<?php echo esc_attr( get_option( 'ama_site_essentials_parent_theme_handle' ) ); ?>">
+							<p class="description"><?php _e( 'Enter the parent\'s theme handle. It\'s the first parameter of the wp_enqueue_style function in the functions.php file of the parent theme.', 'ama-site-essentials' ); ?></p>
 						</td>
 					</tr>
 					<tr>
-						<th scope="row"><label for="ama_site_essentials_parent_theme_loading_method">Parent Theme Loading Method</label></th>
+						<th scope="row"><label for="ama_site_essentials_parent_theme_loading_method"><?php _e( 'Parent Theme Loading Method', 'ama-site-essentials' ); ?></label></th>
 						<td>
 							<?php
-							$selected_method = esc_attr(get_option('ama_site_essentials_parent_theme_loading_method'));
+							$selected_method = esc_attr( get_option( 'ama_site_essentials_parent_theme_loading_method' ) );
 							?>
-							<input type="radio" id="method1" name="ama_site_essentials_parent_theme_loading_method" value="get_template" <?php checked('get_template', $selected_method); ?>>
-							<label for="method1">get_template</label><br>
+							<input type="radio" id="method1" name="ama_site_essentials_parent_theme_loading_method" value="get_template" <?php checked( 'get_template', $selected_method ); ?>>
+							<label for="method1">'get_template'</label><br>
 
-							<input type="radio" id="method2" name="ama_site_essentials_parent_theme_loading_method" value="get_stylesheet" <?php checked('get_stylesheet', $selected_method); ?>>
-							<label for="method2">get_stylesheet</label><br>
+							<input type="radio" id="method2" name="ama_site_essentials_parent_theme_loading_method" value="get_stylesheet" <?php checked( 'get_stylesheet', $selected_method ); ?>>
+							<label for="method2">'get_stylesheet'</label><br>
 
-							<input type="radio" id="method3" name="ama_site_essentials_parent_theme_loading_method" value="both" <?php checked('both', $selected_method); ?>>
-							<label for="method3">The parent theme loads both stylesheets</label>
-							<p class="description">Select the stylesheet loading method used by the parent theme in its functions.php file.</p>
+							<input type="radio" id="method3" name="ama_site_essentials_parent_theme_loading_method" value="both" <?php checked( 'both', $selected_method ); ?>>
+							<label for="method3"><?php _e( 'The parent theme loads both stylesheets', 'ama-site-essentials' ); ?></label>
+							<p class="description"><?php _e( 'Select the stylesheet loading method used by the parent theme in its functions.php file.', 'ama-site-essentials' ); ?></p>
 						</td>
 					</tr>
-
 				</table>
 			
 
 				<!-- Email Section -->
-				<h3>Email Settings</h3>
+				<h3><?php _e( 'Email Settings', 'ama-site-essentials' ); ?></h3>
 				<table class="form-table">
-					
 					<?php 
-					echo $this->generate_smtp_setting_row("smtp_username", "SMTP Username", "Enter the username of your SMTP server.");
+					echo $this->generate_smtp_setting_row( "smtp_username", __( 'SMTP Username', 'ama-site-essentials' ), __( 'Enter the username of your SMTP server.', 'ama-site-essentials' ) );
 					
 					// Different field for the password. 
-					// Defines the placeholder of the field based on wether the option has been set or not.
-					
-					if(get_option('ama_site_essentials_smtp_password') === false) {
-						$password_placeholder = "";
-					} else {
-						$password_placeholder = "Hidden for security";
-					}
-
+					// Defines the placeholder of the field based on whether the option has been set or not.
+					$password_placeholder = ( get_option( 'ama_site_essentials_smtp_password' ) === false ) ? "" : __( 'Hidden for security', 'ama-site-essentials' );
 					?>
 					<tr>
-						<th scope="row"><label for="ama_site_essentials_smtp_password">SMTP Password</label></th>
+						<th scope="row"><label for="ama_site_essentials_smtp_password"><?php _e( 'SMTP Password', 'ama-site-essentials' ); ?></label></th>
 						<td>
-							<input type="password" id="ama_site_essentials_smtp_password" name="ama_site_essentials_smtp_password" class="regular-text" placeholder= "<?php echo $password_placeholder ?>">
-							<p class="description">Enter the password of your SMTP server.</p>
+							<input type="password" id="ama_site_essentials_smtp_password" name="ama_site_essentials_smtp_password" class="regular-text" placeholder="<?php $password_placeholder ?>">
+							<p class="description"><?php _e( 'Enter the password of your SMTP server.', 'ama-site-essentials' ); ?></p>
 						</td>
 					</tr>
-					
 					<?php
 
-					echo $this->generate_smtp_setting_row("smtp_sender", "SMTP Sender", "Enter the email address from where the emails should be sent.");
+					echo $this->generate_smtp_setting_row( "smtp_sender", __( 'SMTP Sender', 'ama-site-essentials' ), __( 'Enter the email address from where the emails should be sent.', 'ama-site-essentials' ) );
 
+					echo $this->generate_smtp_setting_row( "smtp_name", __( 'SMTP Name', 'ama-site-essentials' ), __( 'Enter the name that people will see from these emails.', 'ama-site-essentials' ) );
 
-					echo $this->generate_smtp_setting_row("smtp_name", "SMTP Name", "Enter the name that people will see from these emails.");
+					echo $this->generate_smtp_setting_row( "smtp_server", __( 'SMTP Server', 'ama-site-essentials' ), __( 'Enter the address (hostname) of your SMTP server.', 'ama-site-essentials' ) );
 
-					echo $this->generate_smtp_setting_row("smtp_server", "SMTP Server", "Enter the address (hostname) of your SMTP server.");
+					echo $this->generate_smtp_setting_row( "smtp_port", __( 'SMTP Port', 'ama-site-essentials' ), __( 'Enter the server port number.', 'ama-site-essentials' ) );
 
-					echo $this->generate_smtp_setting_row("smtp_port", "SMTP Port", "Enter the server port number.");
-
-					echo $this->generate_smtp_setting_row("smtp_secure", "SMTP Encryption", "Enter the encryption protocol (tls is recommended).");
+					echo $this->generate_smtp_setting_row( "smtp_secure", __( 'SMTP Encryption', 'ama-site-essentials' ), __( 'Enter the encryption protocol (tls is recommended).', 'ama-site-essentials' ) );
 					?>
-
 				</table>
 
 				<!-- Google Tag Manager Section -->
-				<h3>Google Tag Manager</h3>
-				<form method="post" action="">
-					<table class="form-table">
-						<tr>
-							<th scope="row"><label for="ama_site_essentials_gtm_header_tag">Google Tag Manager: Header</label></th>
-							<td>
-								<textarea id="ama_site_essentials_gtm_header_tag" name="ama_site_essentials_gtm_header_tag" class="regular-text" rows="7" placeholder="&lt;!-- Google Tag Manager --&gt;&#10;&lt;script&gt;XXX&lt;/script&gt;&#10;&lt;!-- End Google Tag Manager --&gt;"><?php echo esc_attr(get_option('ama_site_essentials_gtm_header_tag')); ?></textarea>
-								<p class="description">Enter the GTM code for the header.</p>
-							</td>
-						</tr>
-						<tr>
-							<th scope="row"><label for="ama_site_essentials_gtm_body_tag">Google Tag Manager: Body</label></th>
-							<td>
-								<textarea id="ama_site_essentials_gtm_body_tag" name="ama_site_essentials_gtm_body_tag" class="regular-text" rows="7" placeholder="&lt;!-- Google Tag Manager (noscript) --&gt;&#10;&lt;noscript&gt;XXX&lt;/noscript&gt;&#10;&lt;!-- End Google Tag Manager (noscript) --&gt;"><?php echo esc_attr(get_option('ama_site_essentials_gtm_body_tag')); ?></textarea>
-								<p class="description">Enter the GTM code for the body.</p>
-							</td>
-						</tr>
-					</table>
+				<h3><?php _e( 'Google Tag Manager', 'ama-site-essentials' ); ?></h3>
+				<table class="form-table">
+					<tr>
+						<th scope="row"><label for="ama_site_essentials_gtm_header_tag"><?php _e( 'Google Tag Manager: Header', 'ama-site-essentials' ); ?></label></th>
+						<td>
+							<textarea id="ama_site_essentials_gtm_header_tag" name="ama_site_essentials_gtm_header_tag" class="regular-text" rows="7" placeholder="<!-- Google Tag Manager -->\n<script>XXX</script>\n<!-- End Google Tag Manager -->"><?php echo esc_attr( get_option( 'ama_site_essentials_gtm_header_tag' ) ); ?></textarea>
+							<p class="description"><?php _e( 'Enter the GTM code for the header.', 'ama-site-essentials' ); ?></p>
+						</td>
+					</tr>
+					<tr>
+						<th scope="row"><label for="ama_site_essentials_gtm_body_tag"><?php _e( 'Google Tag Manager: Body', 'ama-site-essentials' ); ?></label></th>
+						<td>
+							<textarea id="ama_site_essentials_gtm_body_tag" name="ama_site_essentials_gtm_body_tag" class="regular-text" rows="7" placeholder="<!-- Google Tag Manager (noscript) -->\n<noscript>XXX</noscript>\n<!-- End Google Tag Manager (noscript) -->"><?php echo esc_attr( get_option( 'ama_site_essentials_gtm_body_tag' ) ); ?></textarea>
+							<p class="description"><?php _e( 'Enter the GTM code for the body.', 'ama-site-essentials' ); ?></p>
+						</td>
+					</tr>
+				</table>
+				<?php submit_button( __( 'Save Settings', 'ama-site-essentials' ), 'primary', 'ama_site_essentials_submit' ); ?>
+			</form>
+		</div>
 
-				<?php submit_button('Save Settings', 'primary', 'ama_site_essentials_submit'); ?>
-				</form>
-				</div>
-
-<?php
+	<?php
 	}
 	
 	// Generate a table row for a setting field, to be used in the SMTP settings table.
@@ -378,18 +346,17 @@ class Admin_Core {
 		return ob_get_clean();
 	}
 
-
 	// Add a custom meta description field to the post edit area
 	function add_custom_meta_description_field() {
 
 		$screens = array( 'post', 'page' );
 
-		// an add_meta_box function is required per screen type, so a foreach loop is required to have the meta box in both the posts and pages. 
+		// Loop through each screen type and add the meta box
 		foreach ( $screens as $screen ) {
 			add_meta_box(
 				'ama_site_essentials_meta_description',
-				'AMA Site Essentials - Meta Description',
-				array( $this,'render_custom_meta_description_field' ),
+				__( 'AMA Site Essentials - Meta Description', 'ama-site-essentials' ),
+				array( $this, 'render_custom_meta_description_field' ),
 				$screen,
 				'normal',
 				'high'
@@ -400,12 +367,12 @@ class Admin_Core {
 	// Render the custom meta description field
 	function render_custom_meta_description_field($post) {
 		// Get the saved meta description if it exists
-		$meta_description = get_post_meta($post->ID, '_ama_site_essentials_meta_description', true);
+		$meta_description = get_post_meta( $post->ID, '_ama_site_essentials_meta_description', true );
 
 		// Output the field HTML
 		?>
-		<label for="ama_site_essentials_meta_description">Meta Description:</label> 
-		<textarea id="ama_site_essentials_meta_description" name="ama_site_essentials_meta_description" rows="3" maxlength="160" placeholder="Write a short, 160 character summary of your post/page."><?php echo esc_textarea($meta_description); ?></textarea>
+		<label for="ama_site_essentials_meta_description"><?php _e( 'Meta Description:', 'ama-site-essentials' ); ?></label> 
+		<textarea id="ama_site_essentials_meta_description" name="ama_site_essentials_meta_description" rows="3" maxlength="160" placeholder="<?php esc_attr_e( 'Write a short, 160 character summary of your post/page.', 'ama-site-essentials' ); ?>"><?php echo esc_textarea( $meta_description ); ?></textarea>
 		<?php
 	}
 
@@ -515,42 +482,34 @@ class Admin_Core {
 			set_transient( 'ama_site_essentials_attempted_login', $datas , 300 );
 		}
 	}
-	
-	public function time_to_go($timestamp) {
-	
-		// converting the mysql timestamp to php time
-		$periods = array(
-			"second",
-			"minute",
-			"hour",
-			"day",
-			"week",
-			"month",
-			"year"
-		);
-		$lengths = array(
-			"60",
-			"60",
-			"24",
-			"7",
-			"4.35",
-			"12"
-		);
 
-		// Calculates the time left in human measurements
+	public function time_to_go($timestamp) {
+		// Defining periods and their lengths in seconds
+		$periods = array(
+			__("second", "ama-site-essentials"),
+			__("minute", "ama-site-essentials"),
+			__("hour", "ama-site-essentials"),
+			__("day", "ama-site-essentials"),
+			__("week", "ama-site-essentials"),
+			__("month", "ama-site-essentials"),
+			__("year", "ama-site-essentials")
+		);
+		$lengths = array(60, 60, 24, 7, 4.35, 12);
+
+		// Calculate the time difference
 		$current_timestamp = time();
 		$difference = abs($current_timestamp - $timestamp);
-		for ($i = 0; $difference >= $lengths[$i] && $i < count($lengths) - 1; $i ++) {
+		for ($i = 0; $difference >= $lengths[$i] && $i < count($lengths) - 1; $i++) {
 			$difference /= $lengths[$i];
 		}
 
-		// Prepares the time as text. If it's more than 1, converts the time measurement to plural.
+		// Prepare the time as text. If it's more than 1, convert the time measurement to plural.
 		$difference = round($difference);
 		if (isset($difference)) {
 			if ($difference != 1)
-				$periods[$i] .= "s";
-				$output = "$difference $periods[$i]";
-				return $output;
+				$periods[$i] .= __("s", "ama-site-essentials");
+			$output = "$difference $periods[$i]";
+			return $output;
 		}
 	}
 }

@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ama-site-essentials-i18n\n"
-"POT-Creation-Date: 2024-03-16 08:02-0600\n"
-"PO-Revision-Date: 2024-03-16 15:08-0600\n"
+"POT-Creation-Date: 2024-03-20 19:43-0600\n"
+"PO-Revision-Date: 2024-03-20 19:47-0600\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: es_ES\n"
@@ -15,15 +15,335 @@ msgstr ""
 "X-Poedit-KeywordsList: _e;__\n"
 "X-Poedit-SearchPath-0: class-admin-core.php\n"
 
-#: class-admin-core.php:134
+#: class-admin-core.php:66
+msgid "Monday"
+msgstr "Lunes"
+
+#: class-admin-core.php:66
+msgid "Tuesday"
+msgstr "Martes"
+
+#: class-admin-core.php:66
+msgid "Wednesday"
+msgstr "Miércoles"
+
+#: class-admin-core.php:66
+msgid "Thursday"
+msgstr "Jueves"
+
+#: class-admin-core.php:66
+msgid "Friday"
+msgstr "Viernes"
+
+#: class-admin-core.php:66
+msgid "Saturday"
+msgstr "Sábado"
+
+#: class-admin-core.php:66
+msgid "Sunday"
+msgstr "Domingo"
+
+#: class-admin-core.php:115
 msgid "AMA Site Essentials Settings"
 msgstr "Configuración de AMA Site Essentials"
 
-#: class-admin-core.php:492
+#: class-admin-core.php:118 class-admin-core.php:122
+msgid "Custom Home Meta Description"
+msgstr "Descripción Meta Personalizada"
+
+#: class-admin-core.php:124
+msgid "This is the website of XXXXXX, a small business focused on XXXXX."
+msgstr "Este es el sitio web de XXXXXX, un pequeño negocio centrado en XXXXX."
+
+#: class-admin-core.php:125
+msgid "Write a short, 160 character summary of your website/business."
+msgstr "Escriba un resumen breve de 160 caracteres sobre su sitio web/negocio."
+
+#: class-admin-core.php:131
+msgid "Schema Markup Configuration"
+msgstr "Configuración del Marcado de Esquema"
+
+#: class-admin-core.php:134
+msgid "Business Type"
+msgstr "Tipo de Negocio"
+
+#: class-admin-core.php:140
+msgid "Online Store"
+msgstr "Tienda en Línea"
+
+#: class-admin-core.php:143
+msgid "Physical Store"
+msgstr "Tienda Física"
+
+#: class-admin-core.php:146
+msgid "Online and Physical Store"
+msgstr "Tienda en Línea y Física"
+
+#: class-admin-core.php:147
+msgid "Select the type of business that better describes yours."
+msgstr "Seleccione el tipo de negocio que mejor describa el suyo."
+
+#: class-admin-core.php:154
+msgid "Business Country"
+msgstr "País del Negocio"
+
+#: class-admin-core.php:157
+msgid "Enter the country where your company is based"
+msgstr "Ingrese el país donde se encuentra su empresa"
+
+#: class-admin-core.php:162
+msgid "Business Region"
+msgstr "Región del Negocio"
+
+#: class-admin-core.php:165
+msgid ""
+"Enter the region where your company is based (i.e. San José, Guadalajara, "
+"California, etc.)"
+msgstr ""
+"Ingrese la región donde se encuentra su empresa (por ejemplo, San José, "
+"Guadalajara, California, etc.)"
+
+#: class-admin-core.php:170
+msgid "Business Postal Code"
+msgstr "Código Postal del Negocio"
+
+#: class-admin-core.php:173
+msgid "Set the business postal code"
+msgstr "Establezca el código postal del negocio"
+
+#: class-admin-core.php:178
+msgid "Physical Address"
+msgstr "Dirección Física"
+
+#: class-admin-core.php:180
+msgid "San José, Curridabat, 300 meters from ..."
+msgstr "San José, Curridabat, a 300 metros de ..."
+
+#: class-admin-core.php:181
+msgid "Write the physical address of your business."
+msgstr "Escriba la dirección física de su negocio."
+
+#: class-admin-core.php:186
+msgid "Geolocation"
+msgstr "Geolocalización"
+
+#: class-admin-core.php:189
+msgid ""
+"Type the latitude and longitude of your business location (as given by "
+"Google Maps)."
+msgstr ""
+"Escriba la latitud y longitud de la ubicación de su empresa (según lo "
+"proporcionado por Google Maps)."
+
+#: class-admin-core.php:194
+msgid "Business Phone Number"
+msgstr "Número de Teléfono del Negocio"
+
+#: class-admin-core.php:197
+msgid "Set the business main phone number."
+msgstr "Establezca el número de teléfono principal del negocio."
+
+#: class-admin-core.php:202
+msgid "Opening Hour"
+msgstr "Hora de Apertura"
+
+#: class-admin-core.php:205
+msgid "Specify the opening hour of your business."
+msgstr "Especifique la hora de apertura de su negocio."
+
+#: class-admin-core.php:210
+msgid "Closing Hour"
+msgstr "Hora de Cierre"
+
+#: class-admin-core.php:213
+msgid "Specify the closing hour of your business."
+msgstr "Especifique la hora de cierre de su negocio."
+
+#: class-admin-core.php:220
+msgid "Open Days"
+msgstr "Días abierto"
+
+#: class-admin-core.php:238
+msgid "Select the days when your business is open."
+msgstr "Seleccione los días en que su negocio está abierto."
+
+#: class-admin-core.php:245
+msgid "Child Theme Configuration"
+msgstr "Configuración del Tema Hijo"
+
+#: class-admin-core.php:248
+msgid "Parent Theme Handle"
+msgstr "Identificador del Tema Padre"
+
+#: class-admin-core.php:251
+msgid ""
+"Enter the parent's theme handle. It's the first parameter of the "
+"wp_enqueue_style function in the functions.php file of the parent theme."
+msgstr ""
+"Ingrese el identificador del tema padre. Es el primer parámetro de la "
+"función wp_enqueue_style en el archivo functions.php del tema padre."
+
+#: class-admin-core.php:255
+msgid "Parent Theme Loading Method"
+msgstr "Método de Carga del Tema Padre"
+
+#: class-admin-core.php:267
+msgid "The parent theme loads both stylesheets"
+msgstr "El tema padre carga ambas hojas de estilo"
+
+#: class-admin-core.php:268
+msgid ""
+"Select the stylesheet loading method used by the parent theme in its "
+"functions.php file."
+msgstr ""
+"Seleccione el método de carga de hojas de estilo utilizado por el tema padre "
+"en su archivo functions.php."
+
+#: class-admin-core.php:275
+msgid "Email Settings"
+msgstr "Configuración de Correo Electrónico"
+
+#: class-admin-core.php:278
+msgid "SMTP Username"
+msgstr "Nombre de Usuario SMTP"
+
+#: class-admin-core.php:278
+msgid "Enter the username of your SMTP server."
+msgstr "Ingrese el nombre de usuario de su servidor SMTP."
+
+#: class-admin-core.php:282
+msgid "Hidden for security"
+msgstr "Escondido por seguridad"
+
+#: class-admin-core.php:285
+msgid "SMTP Password"
+msgstr "Contraseña SMTP"
+
+#: class-admin-core.php:288
+msgid "Enter the password of your SMTP server."
+msgstr "Ingrese la contraseña de su servidor SMTP."
+
+#: class-admin-core.php:293
+msgid "SMTP Sender"
+msgstr "Remitente SMTP"
+
+#: class-admin-core.php:293
+msgid "Enter the email address from where the emails should be sent."
+msgstr ""
+"Ingrese la dirección de correo electrónico desde donde se deben enviar los "
+"correos electrónicos."
+
+#: class-admin-core.php:295
+msgid "SMTP Name"
+msgstr "Nombre SMTP"
+
+#: class-admin-core.php:295
+msgid "Enter the name that people will see from these emails."
+msgstr ""
+"Ingrese el nombre que verán las personas en estos correos electrónicos."
+
+#: class-admin-core.php:297
+msgid "SMTP Server"
+msgstr "Servidor SMTP"
+
+#: class-admin-core.php:297
+msgid "Enter the address (hostname) of your SMTP server."
+msgstr "Ingrese la dirección (nombre de host) de su servidor SMTP."
+
+#: class-admin-core.php:299
+msgid "SMTP Port"
+msgstr "Puerto SMTP"
+
+#: class-admin-core.php:299
+msgid "Enter the server port number."
+msgstr "Ingrese el número de puerto del servidor."
+
+#: class-admin-core.php:301
+msgid "SMTP Encryption"
+msgstr "Cifrado SMTP"
+
+#: class-admin-core.php:301
+msgid "Enter the encryption protocol (tls is recommended)."
+msgstr "Ingrese el protocolo de cifrado (se recomienda tls)."
+
+#: class-admin-core.php:306
+msgid "Google Tag Manager"
+msgstr "Gestor de Etiquetas de Google"
+
+#: class-admin-core.php:309
+msgid "Google Tag Manager: Header"
+msgstr "Gestor de Etiquetas de Google: Encabezado"
+
+#: class-admin-core.php:312
+msgid "Enter the GTM code for the header."
+msgstr "Ingrese el código GTM para el encabezado."
+
+#: class-admin-core.php:316
+msgid "Google Tag Manager: Body"
+msgstr "Gestor de Etiquetas de Google: Cuerpo"
+
+#: class-admin-core.php:319
+msgid "Enter the GTM code for the body."
+msgstr "Ingrese el código GTM para el cuerpo."
+
+#: class-admin-core.php:323
+msgid "Save Settings"
+msgstr "Guardar Configuración"
+
+#: class-admin-core.php:358
+msgid "AMA Site Essentials - Meta Description"
+msgstr "AMA Site Essentials - Descripción Meta"
+
+#: class-admin-core.php:374
+msgid "Meta Description:"
+msgstr "Descripción Meta:"
+
+#: class-admin-core.php:459
 #, php-format
 msgid ""
 "<strong>ERROR</strong>: You have reached authentication limit, you will be "
 "able to try again in %1$s."
 msgstr ""
-"<strong>ERROR</strong>: Ha alcanzado el límite de intentos, podrá intentarlo "
-"de nuevo en  %1$s."
+"<strong>ERROR</strong>: Ha alcanzado el límite de intentos de autenticación, "
+"podrá intentarlo de nuevo en %1$s."
+
+#: class-admin-core.php:489
+msgid "second"
+msgstr "segundo"
+
+#: class-admin-core.php:490
+msgid "minute"
+msgstr "minuto"
+
+#: class-admin-core.php:491
+msgid "hour"
+msgstr "hora"
+
+#: class-admin-core.php:492
+msgid "day"
+msgstr "día"
+
+#: class-admin-core.php:493
+msgid "week"
+msgstr "semana"
+
+#: class-admin-core.php:494
+msgid "month"
+msgstr "mes"
+
+#: class-admin-core.php:495
+msgid "year"
+msgstr "año"
+
+#: class-admin-core.php:510
+msgid "s"
+msgstr "s"
+
+#~ msgid "get_template"
+#~ msgstr "get_template"
+
+#~ msgid "get_stylesheet"
+#~ msgstr "get_stylesheet"
+
+#~ msgid "AMA Site Essentials"
+#~ msgstr "AMA Site Essentials"
