@@ -1,0 +1,38 @@
+Folder PATH listing
+Volume serial number is 2C84-00D3
+C:.
+|   ama-woo-essentials.php
+|   folder_structure.txt
+|   index.php
+|   LICENSE.txt
+|   README.txt
+|   uninstall.php
+|   
++---.vscode
+|       launch.json
+|       
++---admin
+|   |   class-admin-core.php
+|   |   index.php
+|   |   
+|   +---css
+|   |       admin.css
+|   |       
+|   \---js
+|           admin.js
+|           
++---includes
+|       class-autoloader.php
+|       class-i18n.php
+|       class-loader.php
+|       class-main.php
+|       index.php
+|       
++---languages
+|       ama-woo-essentials-es_ES.mo
+|       ama-woo-essentials-es_ES.po
+|       
+\---public
+        class-public-core.php
+        index.php
+        

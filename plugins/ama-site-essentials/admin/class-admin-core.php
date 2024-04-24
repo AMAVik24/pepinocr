@@ -323,31 +323,30 @@ class Admin_Core {
 				<?php submit_button( __( 'Save Settings', 'ama-site-essentials' ), 'primary', 'ama_site_essentials_submit' ); ?>
 			</form>
 		</div>
-
 	<?php
 	}
-	
-	// Generate a table row for a setting field, to be used in the SMTP settings table.
-	function generate_smtp_setting_row($field_name_no_prefix, $setting_title, $description) {
-		
-		// Adds the plugin prefix to the field name, which will be used for the "for, "id", and "name parameters.
-		$field_name_no_prefix = "ama_site_essentials_" . $field_name_no_prefix;
-		// Starts the buffer to store all the following HTML
-		ob_start(); ?>
-		<tr>
-			<th scope="row"><label for="<?php echo esc_attr($field_name_no_prefix); ?>"><?php echo esc_html($setting_title); ?></label></th>
-			<td>
-				<input type="text" id="<?php echo esc_attr($field_name_no_prefix); ?>" name="<?php echo esc_attr($field_name_no_prefix); ?>" class="regular-text" value="<?php echo esc_attr(get_option($field_name_no_prefix)); ?>">
-				<p class="description"><?php echo esc_html($description); ?></p>
-			</td>
-		</tr>
-		<?php
-		// Returns the buffer contents and cleans the buffer.
-		return ob_get_clean();
-	}
 
+	// Generate a table row for a setting field, to be used in the SMTP settings table.
+	public function generate_smtp_setting_row($field_name_no_prefix, $setting_title, $description) {
+
+	// Adds the plugin prefix to the field name, which will be used for the "for, "id", and "name parameters.
+	$field_name_no_prefix = "ama_site_essentials_" . $field_name_no_prefix;
+	// Starts the buffer to store all the following HTML
+	ob_start(); ?>
+	<tr>
+		<th scope="row"><label for="<?php echo esc_attr($field_name_no_prefix); ?>"><?php echo esc_html($setting_title); ?></label></th>
+		<td>
+			<input type="text" id="<?php echo esc_attr($field_name_no_prefix); ?>" name="<?php echo esc_attr($field_name_no_prefix); ?>" class="regular-text" value="<?php echo esc_attr(get_option($field_name_no_prefix)); ?>">
+			<p class="description"><?php echo esc_html($description); ?></p>
+		</td>
+	</tr>
+	<?php
+	// Returns the buffer contents and cleans the buffer.
+	return ob_get_clean();
+	}
+	
 	// Add a custom meta description field to the post edit area
-	function add_custom_meta_description_field() {
+	public function add_custom_meta_description_field() {
 
 		$screens = array( 'post', 'page' );
 
@@ -365,7 +364,7 @@ class Admin_Core {
 	}
 
 	// Render the custom meta description field
-	function render_custom_meta_description_field($post) {
+	public function render_custom_meta_description_field($post) {
 		// Get the saved meta description if it exists
 		$meta_description = get_post_meta( $post->ID, '_ama_site_essentials_meta_description', true );
 
@@ -377,7 +376,7 @@ class Admin_Core {
 	}
 
 	// Save the custom meta description field data
-	function save_custom_meta_description_field($post_id) {
+	public function save_custom_meta_description_field($post_id) {
 
 		// Exits the function if it's just autouploading or if the user doesn't have authorization.
 		if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) return;
@@ -395,7 +394,7 @@ class Admin_Core {
 	*/
 
 	// Adds the SMTP authentication details when sending emails
-	function my_phpmailer_smtp( $phpmailer ) {
+	public function my_phpmailer_smtp( $phpmailer ) {
 		$phpmailer->isSMTP();     
 		$phpmailer->SMTPAuth = true;
 		$phpmailer->Username = get_option('ama_site_essentials_smtp_username'); 
@@ -410,7 +409,7 @@ class Admin_Core {
 
 	// Copies the sender email as BCC to see the sent emails. It checks if the 'headers' element of the $args array is an array itself. If it's an array, it appends a BCC header to the array. The 'headers' array can have multiple headers, and this code just adds another one. If it's not an array (which typically means there was no existing header), it treats the 'headers' element as a string and appends the BCC header.
 
-	function add_address_to_bcc($args) {
+	public function add_address_to_bcc($args) {
 		$bcc_email = sanitize_email(get_option('ama_site_essentials_smtp_sender'));
 		if (is_array($args['headers'])) {
 			$args['headers'][] = 'Bcc: '.$bcc_email ;
@@ -426,7 +425,7 @@ class Admin_Core {
 	 */
 
 	// Encryption function
-	function my_encrypt($data) {
+	public function my_encrypt($data) {
 		$cipher = 'AES-256-CBC'; // You can choose a different encryption method if needed
 		$iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length($cipher));
 		$encrypted = openssl_encrypt($data, $cipher, '3Sct2cJJS5yOrfQpgwqNYm/De+zwIW0ciTfb+8dVfXALvdsm/vZaEZAU1uhuIQ5x', 0, $iv);
@@ -434,7 +433,7 @@ class Admin_Core {
 	}
 	
 	// Decryption function
-	function my_decrypt($data) {
+	public function my_decrypt($data) {
 		$cipher = 'AES-256-CBC'; // Make sure it matches the encryption method used
 		$data = base64_decode($data);
 		$iv_size = openssl_cipher_iv_length($cipher);
@@ -445,7 +444,7 @@ class Admin_Core {
 
 	// Checks how many login attempts have been made. If 3 or more attempts were made, it returns a WP_Error indicating that the user has reached the authentication limit.
 
-	function check_attempted_login( $user ) {
+	public function check_attempted_login( $user ) {
 		if ( get_transient( 'ama_site_essentials_attempted_login' ) ) {
 			$datas = get_transient( 'ama_site_essentials_attempted_login' );
 			

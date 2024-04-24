@@ -1,0 +1,38 @@
+/* ama-woo-essentials-public.css */
+
+
+/* CSS styles for the little shopping cart icon */
+.shopping-cart-icon {
+    position: relative;
+    top: -10%;
+    width: 32px; 
+    height: 32px; 
+    fill: var(--primary-nav--color-text); 
+    opacity: 0.75;
+}
+
+/* CSS to remove background color on click */
+#cart-icon:focus, 
+#cart-icon:active {
+    background-color: transparent !important;
+    outline: none; /* Optionally remove the outline */
+}
+
+/* CSS styles for cart amount */
+.cart-amount {
+    position: relative;
+    top: -35%;
+    right:10%;
+}
+
+
+/* CSS styles for cart count */
+.cart-count {
+    position: relative;
+    top: -75%;
+    right:10%;
+    background-color: #FF5733; 
+    color: var(--global--color-background); 
+    border-radius: 50%; 
+    padding: 1px 8px;
+}

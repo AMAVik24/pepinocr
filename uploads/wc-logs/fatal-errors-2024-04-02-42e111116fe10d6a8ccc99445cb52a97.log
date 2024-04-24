@@ -1,0 +1,25 @@
+2024-04-02T00:32:23+00:00 CRITICAL Uncaught TypeError: call_user_func_array(): Argument #1 ($callback) must be a valid callback, function "activate_ama_woo_essentials" not found or invalid function name in /var/www/html/wp-includes/class-wp-hook.php:308
+Stack trace:
+#0 /var/www/html/wp-includes/class-wp-hook.php(332): WP_Hook->apply_filters('', Array)
+#1 /var/www/html/wp-includes/plugin.php(517): WP_Hook->do_action(Array)
+#2 /var/www/html/wp-admin/includes/plugin.php(691): do_action('activate_ama-wo...', false)
+#3 /var/www/html/wp-admin/plugins.php(58): activate_plugin('ama-woo-essenti...', 'http://localhos...', false)
+#4 {main}
+  thrown in /var/www/html/wp-includes/class-wp-hook.php on line 308
+
+2024-04-02T00:32:26+00:00 CRITICAL Uncaught TypeError: call_user_func_array(): Argument #1 ($callback) must be a valid callback, function "activate_ama_woo_essentials" not found or invalid function name in /var/www/html/wp-includes/class-wp-hook.php:308
+Stack trace:
+#0 /var/www/html/wp-includes/class-wp-hook.php(332): WP_Hook->apply_filters('', Array)
+#1 /var/www/html/wp-includes/plugin.php(517): WP_Hook->do_action(Array)
+#2 /var/www/html/wp-admin/plugins.php(194): do_action('activate_ama-wo...')
+#3 {main}
+  thrown in /var/www/html/wp-includes/class-wp-hook.php on line 308
+
+2024-04-02T00:32:26+00:00 CRITICAL Uncaught TypeError: call_user_func_array(): Argument #1 ($callback) must be a valid callback, function "activate_ama_woo_essentials" not found or invalid function name in /var/www/html/wp-includes/class-wp-hook.php:308
+Stack trace:
+#0 /var/www/html/wp-includes/class-wp-hook.php(332): WP_Hook->apply_filters('', Array)
+#1 /var/www/html/wp-includes/plugin.php(517): WP_Hook->do_action(Array)
+#2 /var/www/html/wp-admin/plugins.php(194): do_action('activate_ama-wo...')
+#3 {main}
+  thrown in /var/www/html/wp-includes/class-wp-hook.php on line 308
+
