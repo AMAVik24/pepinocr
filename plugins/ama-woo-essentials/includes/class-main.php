@@ -46,7 +46,14 @@ class Main {
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
 		$this->loader->add_action( 'wp_head', $plugin_public, 'output_custom_meta_description');
-		$this->loader->add_action( 'wp_nav_menu_items', $plugin_public, 'add_cart_icon_to_menu', 10 , 2);
+		//$this->loader->add_action( 'wp_nav_menu_items', $plugin_public, 'add_cart_icon_to_menu', 10 , 2);
+		//$this->loader->add_action( 'wp_footer', $plugin_public, 'add_side_panel_to_footer');
+		$this->loader->add_filter( 'wp_nav_menu_items', $plugin_public, 'add_mini_cart_menu_item', 10, 2 );
+		//AJAX hooks
+		//$this->loader->add_action( 'wp_ajax_update_cart_count', $plugin_public, 'update_cart_count_callback');
+		//$this->loader->add_action( 'wp_ajax_nopriv_update_cart_count', $plugin_public, 'update_cart_count_callback');
+		//$this->loader->add_action( 'wp_ajax_get_cart_contents', $plugin_public, 'get_cart_contents_callback');
+		//$this->loader->add_action( 'wp_ajax_nopriv_get_cart_contents', $plugin_public, 'get_cart_contents_callback');
 
 	}
 

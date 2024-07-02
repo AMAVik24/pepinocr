@@ -13,9 +13,12 @@
 
 /* CSS to remove background color on click */
 #cart-icon:focus, 
+#cart-icon:hover,
 #cart-icon:active {
     background-color: transparent !important;
+    text-decoration: none !important;
     outline: none; /* Optionally remove the outline */
+    color: var(--global--color-text); 
 }
 
 /* CSS styles for cart amount */
@@ -35,4 +38,109 @@
     color: var(--global--color-background); 
     border-radius: 50%; 
     padding: 1px 8px;
+}
+
+/* Style for the side panel */
+.side-panel {
+    position: fixed;
+    right: -300px;
+    top: 0;
+    width: 300px;
+    height: 100%;
+    background: white;
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
+    transition: right 0.3s ease;
+    z-index: 1001;
+}
+
+.side-panel.show {
+    right: 0;
+}
+
+.side-panel-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: none;
+    z-index: 1000;
+}
+
+.side-panel-overlay.show {
+    display: block;
+}
+
+.side-panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    background-color: #f4f4f4;
+}
+
+.side-panel-content {
+    padding: 15px;
+    overflow-y: auto;
+}
+
+.side-panel-footer {
+    padding: 15px;
+    background-color: #f4f4f4;
+}
+
+.cart-items {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.cart-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.close-panel {
+    cursor: pointer;
+}
+
+/* For the Loader Spinner*/
+
+.loader {
+    border: 5px solid #f3f3f3;
+    border-top: 5px solid #353535;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    animation: spin 2s linear infinite;
+    margin: 0 auto; /* Center the loader */
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.wc-block-mini-cart__button {
+    color: var(--global--color-text) !important;
+    background-color: transparent !important;
+    position: relative;
+    top: -10%;
+}
+
+.wc-block-mini-cart__button:focus, 
+.wc-block-mini-cart__button:hover,
+.wc-block-mini-cart__button:active {
+    background-color: transparent !important;
+    text-decoration: none !important;
+    outline: none; /* Optionally remove the outline */
+    color: var(--global--color-text) !important; 
+    opacity: 1 !important;
+}
+
+.wc-block-mini-cart__amount:hover {
+    text-decoration: underline;
+    text-decoration-style: dotted;
 }
