@@ -30,20 +30,6 @@ class Public_Core {
 	}
 
 	/**
-	 * Register the stylesheets for the public-facing side of the site.
-	 */
-	public function enqueue_styles() {
-		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/public.css', array(), $this->version, 'all' );
-	}
-
-	/**
-	 * Register the JavaScript for the public-facing side of the site.
-	 */
-	public function enqueue_scripts() {
-		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/public.js', array( 'jquery' ), $this->version, false );
-	}
-
-	/**
 	 * SEO RELATED FUNCTIONS
 	 */
 

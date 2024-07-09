@@ -31,6 +31,25 @@ define( 'AMA_WOO_ESSENTIALS_VERSION', '1.0.0' );
 // Define a constant for the plugin directory path
 define('AMA_WOO_ESSENTIALS_DIR', plugin_dir_path(__FILE__));
 
+/**
+ * The code that runs during plugin activation.
+ */
+function activate_ama_woo_essentials() {
+	require_once AMA_WOO_ESSENTIALS_DIR . 'includes/class-activator.php';
+	\AmaWooEssentials\Includes\Activator::activate();
+}
+
+/**
+ * The code that runs during plugin deactivation.
+ */
+function deactivate_ama_woo_essentials() {
+	require_once AMA_WOO_ESSENTIALS_DIR . 'includes/class-deactivator.php';
+	\AmaWooEssentials\Includes\Deactivator::deactivate();
+}
+
+register_activation_hook( __FILE__, 'AmaWooEssentials\activate_ama_woo_essentials' );
+register_deactivation_hook(__FILE__, 'AmaWooEssentials\deactivate_ama_woo_essentials' );
+
 require_once AMA_WOO_ESSENTIALS_DIR . 'includes/class-autoloader.php';
 new \AmaWooEssentials\Includes\Autoloader();
 

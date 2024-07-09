@@ -36,25 +36,17 @@ class Main {
 
 	private function define_admin_hooks() {
 		$plugin_admin = new \AmaWooEssentials\Admin\Admin_Core( $this->get_plugin_name(), $this->get_version() );
-		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
-		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
         $this->loader->add_action( 'admin_menu', $plugin_admin, 'add_admin_menu' );
+		$this->loader->add_action( 'admin_init', $plugin_admin, 'register_settings');
+		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
+
 	}
 	
 	private function define_public_hooks() {
 		$plugin_public = new \AmaWooEssentials\Public\Public_Core( $this->get_plugin_name(), $this->get_version() );
-		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
-		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
 		$this->loader->add_action( 'wp_head', $plugin_public, 'output_custom_meta_description');
-		//$this->loader->add_action( 'wp_nav_menu_items', $plugin_public, 'add_cart_icon_to_menu', 10 , 2);
-		//$this->loader->add_action( 'wp_footer', $plugin_public, 'add_side_panel_to_footer');
+		$this->loader->add_action( 'wp_head', $plugin_public, 'enqueue_dinamic_styles' );
 		$this->loader->add_filter( 'wp_nav_menu_items', $plugin_public, 'add_mini_cart_menu_item', 10, 2 );
-		//AJAX hooks
-		//$this->loader->add_action( 'wp_ajax_update_cart_count', $plugin_public, 'update_cart_count_callback');
-		//$this->loader->add_action( 'wp_ajax_nopriv_update_cart_count', $plugin_public, 'update_cart_count_callback');
-		//$this->loader->add_action( 'wp_ajax_get_cart_contents', $plugin_public, 'get_cart_contents_callback');
-		//$this->loader->add_action( 'wp_ajax_nopriv_get_cart_contents', $plugin_public, 'get_cart_contents_callback');
-
 	}
 
 
