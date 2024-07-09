@@ -5,6 +5,7 @@
 
 namespace Automattic\WooCommerce\Admin\API;
 
+use AllowDynamicProperties;
 use Automattic\WooCommerce\Admin\Features\Features;
 
 defined( 'ABSPATH' ) || exit;
@@ -16,6 +17,7 @@ use Automattic\WooCommerce\Internal\Admin\Loader;
  *
  * @internal
  */
+#[AllowDynamicProperties]
 class Init {
 	/**
 	 * The single instance of the class.
@@ -47,6 +49,8 @@ class Init {
 
 		// Add currency symbol to orders endpoint response.
 		add_filter( 'woocommerce_rest_prepare_shop_order_object', array( __CLASS__, 'add_currency_symbol_to_order_response' ) );
+
+		include_once WC_ABSPATH . 'includes/admin/class-wc-admin-upload-downloadable-product.php';
 	}
 
 	/**
@@ -68,6 +72,7 @@ class Init {
 			'Automattic\WooCommerce\Admin\API\MarketingChannels',
 			'Automattic\WooCommerce\Admin\API\MarketingCampaigns',
 			'Automattic\WooCommerce\Admin\API\MarketingCampaignTypes',
+			'Automattic\WooCommerce\Admin\API\Notice',
 			'Automattic\WooCommerce\Admin\API\Options',
 			'Automattic\WooCommerce\Admin\API\Orders',
 			'Automattic\WooCommerce\Admin\API\PaymentGatewaySuggestions',
@@ -88,6 +93,7 @@ class Init {
 			'Automattic\WooCommerce\Admin\API\OnboardingTasks',
 			'Automattic\WooCommerce\Admin\API\OnboardingThemes',
 			'Automattic\WooCommerce\Admin\API\OnboardingPlugins',
+			'Automattic\WooCommerce\Admin\API\OnboardingProducts',
 			'Automattic\WooCommerce\Admin\API\NavigationFavorites',
 			'Automattic\WooCommerce\Admin\API\Taxes',
 			'Automattic\WooCommerce\Admin\API\MobileAppMagicLink',
@@ -97,6 +103,10 @@ class Init {
 		$product_form_controllers = array();
 		if ( Features::is_enabled( 'new-product-management-experience' ) ) {
 			$product_form_controllers[] = 'Automattic\WooCommerce\Admin\API\ProductForm';
+		}
+
+		if ( Features::is_enabled( 'launch-your-store' ) ) {
+			$controllers[] = 'Automattic\WooCommerce\Admin\API\LaunchYourStore';
 		}
 
 		if ( Features::is_enabled( 'analytics' ) ) {
@@ -128,8 +138,7 @@ class Init {
 
 			// The performance indicators controller must be registered last, after other /stats endpoints have been registered.
 			$analytics_controllers[] = 'Automattic\WooCommerce\Admin\API\Reports\PerformanceIndicators\Controller';
-
-			$controllers = array_merge( $controllers, $analytics_controllers, $product_form_controllers );
+			$controllers             = array_merge( $controllers, $analytics_controllers, $product_form_controllers );
 		}
 
 		/**
@@ -184,8 +193,8 @@ class Init {
 	 * object in REST API responses. For use in formatAmount().
 	 *
 	 * @internal
-	 * @param {WP_REST_Response} $response REST response object.
-	 * @returns {WP_REST_Response}
+	 * @param WP_REST_Response $response REST response object.
+	 * @returns WP_REST_Response
 	 */
 	public static function add_currency_symbol_to_order_response( $response ) {
 		$response_data                    = $response->get_data();

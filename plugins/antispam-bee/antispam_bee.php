@@ -9,7 +9,7 @@
  * Domain Path: /lang
  * License:     GPLv2 or later
  * License URI: http://www.gnu.org/licenses/gpl-2.0.html
- * Version:     2.11.3
+ * Version:     2.11.6
  *
  * @package Antispam Bee
  **/
@@ -330,7 +330,7 @@ class Antispam_Bee {
 					'precheck_incoming_request',
 				)
 			);
-			add_action(
+			add_filter(
 				'preprocess_comment',
 				array(
 					__CLASS__,
@@ -402,6 +402,7 @@ class Antispam_Bee {
 		global $wpdb;
 
 		delete_option( 'antispam_bee' );
+		delete_option( 'antispambee_db_version' );
 		$wpdb->query( 'OPTIMIZE TABLE `' . $wpdb->options . '`' );
 
 		//phpcs:disable WordPress.DB.PreparedSQL.NotPrepared
@@ -764,7 +765,12 @@ class Antispam_Bee {
 		$items[] = '<span class="ab-count">' . esc_html(
 			sprintf(
 				// translators: The number of spam comments Antispam Bee blocked so far.
-				__( '%s Blocked', 'antispam-bee' ),
+				_n(
+					'%s Blocked',
+					'%s Blocked',
+					self::_get_spam_count(),
+					'antispam-bee'
+				),
 				self::_get_spam_count()
 			)
 		) . '</span>';
@@ -869,7 +875,7 @@ class Antispam_Bee {
 		$items = (array) self::get_option( 'daily_stats' );
 
 		if ( empty( $items ) ) {
-			echo sprintf(
+			printf(
 				'<div id="ab_chart"><p>%s</p></div>',
 				esc_html__( 'No data available.', 'antispam-bee' )
 			);
@@ -1081,6 +1087,33 @@ class Antispam_Bee {
 		}
 	}
 
+	/**
+	 * Shows plugin update notice
+	 *
+	 * @since  2.11.4
+	 *
+	 * @param array $data An array of plugin metadata. See get_plugin_data()
+	 *                    and the {@see 'plugin_row_meta'} filter for the list
+	 *                    of possible values.
+	 *
+	 * @return void
+	 */
+	public static function upgrade_notice( $data ) {
+		if ( isset( $data['upgrade_notice'] ) ) {
+			printf(
+				'<div class="update-message">%s</div>',
+				wp_kses(
+					wpautop( $data['upgrade_notice '] ),
+					array(
+						'p'     => array(),
+						'a'     => array( 'href', 'title' ),
+						'strong' => array(),
+						'em' => array(),
+					)
+				)
+			);
+		}
+	}
 
 
 	/*
@@ -2213,27 +2246,6 @@ class Antispam_Bee {
 
 
 	/**
-	 * Rotates the IP address
-	 *
-	 * @since   2.4.5
-	 *
-	 * @param   string $ip  IP address.
-	 * @return  string      Turned IP address.
-	 */
-	private static function _reverse_ip( $ip ) {
-		return implode(
-			'.',
-			array_reverse(
-				explode(
-					'.',
-					$ip
-				)
-			)
-		);
-	}
-
-
-	/**
 	 * Check for an IPv4 address
 	 *
 	 * @since  2.4
@@ -2247,24 +2259,6 @@ class Antispam_Bee {
 			return filter_var( $ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4 ) !== false;
 		} else {
 			return preg_match( '/^\d{1,3}(\.\d{1,3}){3}$/', $ip );
-		}
-	}
-
-
-	/**
-	 * Check for an IPv6 address
-	 *
-	 * @since  2.6.2
-	 * @since  2.6.4
-	 *
-	 * @param   string $ip  IP to validate.
-	 * @return  boolean       TRUE if IPv6.
-	 */
-	private static function _is_ipv6( $ip ) {
-		if ( function_exists( 'filter_var' ) ) {
-			return filter_var( $ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6 ) !== false;
-		} else {
-			return ! self::_is_ipv4( $ip );
 		}
 	}
 
@@ -2422,38 +2416,29 @@ class Antispam_Bee {
 	 * Return real client IP
 	 *
 	 * @since   2.6.1
+	 * @since   2.11.4 Only use `REMOTE_ADDR` to get the IP, make it filterable with `pre_comment_user_ip`
+	 * @since   2.11.5 Switch to own filter `antispam_bee_trusted_ip`
 	 *
-	 * @return  mixed  $ip  Client IP
+	 * @hook    string  pre_comment_user_ip  The Client IP
+	 *
+	 * @return  string  $ip  Client IP
 	 */
 	public static function get_client_ip() {
+		/**
+		 * Hook for allowing to modify the client IP used by Antispam Bee. Default value is the `REMOTE_ADDR`.
+		 * IMPORTANT: Don’t return an empty string here, otherwise all comments are marked as spam.
+		 *
+		 * @link https://developer.wordpress.org/reference/hooks/pre_comment_user_ip/
+		 *
+		 * @return string
+		 */
+		// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
+		// phpcs:disable WordPress.Security.ValidatedSanitizedInput.InputNotValidated
 		// phpcs:disable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-		// Sanitization of $ip takes place further down.
-		$ip = '';
-
-		if ( isset( $_SERVER['HTTP_CLIENT_IP'] ) ) {
-			$ip = wp_unslash( $_SERVER['HTTP_CLIENT_IP'] );
-		} elseif ( isset( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) {
-			$ip = wp_unslash( $_SERVER['HTTP_X_FORWARDED_FOR'] );
-		} elseif ( isset( $_SERVER['HTTP_X_FORWARDED'] ) ) {
-			$ip = wp_unslash( $_SERVER['HTTP_X_FORWARDED'] );
-		} elseif ( isset( $_SERVER['HTTP_FORWARDED_FOR'] ) ) {
-			$ip = wp_unslash( $_SERVER['HTTP_FORWARDED_FOR'] );
-		} elseif ( isset( $_SERVER['HTTP_FORWARDED'] ) ) {
-			$ip = wp_unslash( $_SERVER['HTTP_FORWARDED'] );
-		}
-
-		$ip = self::_sanitize_ip( $ip );
-		if ( $ip ) {
-			return $ip;
-		}
-
-		if ( isset( $_SERVER['REMOTE_ADDR'] ) ) {
-			$ip = wp_unslash( $_SERVER['REMOTE_ADDR'] );
-			return self::_sanitize_ip( $ip );
-		}
-
-		return '';
-        // phpcs:enable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+		return self::_sanitize_ip( (string) apply_filters( 'antispam_bee_trusted_ip', wp_unslash( $_SERVER['REMOTE_ADDR'] ) ) );
+		// phpcs:enable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
+		// phpcs:enable WordPress.Security.ValidatedSanitizedInput.InputNotValidated
+		// phpcs:enable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 	}
 
 	/**
@@ -2569,6 +2554,7 @@ class Antispam_Bee {
 		}
 
 		self::load_plugin_lang();
+		self::add_reasons_to_defaults();
 
 		$subject = sprintf(
 			'[%s] %s',
@@ -2750,7 +2736,7 @@ class Antispam_Bee {
 
 		// Count up.
 		if ( array_key_exists( $today, $stats ) ) {
-			$stats[ $today ] ++;
+			$stats[ $today ]++;
 		} else {
 			$stats[ $today ] = 1;
 		}
@@ -2792,7 +2778,6 @@ class Antispam_Bee {
 			(int) $post_id,
 			(bool) self::get_option( 'always_allowed' )
 		);
-
 	}
 
 	/**
@@ -2929,10 +2914,9 @@ class Antispam_Bee {
 	 * @return bool
 	 */
 	private static function db_version_is_current() {
-
 		$current_version = floatval( get_option( 'antispambee_db_version', 0 ) );
-		return $current_version === self::$db_version;
 
+		return $current_version === self::$db_version;
 	}
 
 	/**
@@ -3033,5 +3017,14 @@ register_uninstall_hook(
 	array(
 		'Antispam_Bee',
 		'uninstall',
+	)
+);
+
+// Upgrade notice.
+add_action(
+	'in_plugin_update_message-' . __FILE__,
+	array(
+		'Antispam_Bee',
+		'upgrade_notice',
 	)
 );

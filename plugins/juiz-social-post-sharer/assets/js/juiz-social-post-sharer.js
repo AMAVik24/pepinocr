@@ -2,9 +2,7 @@
  * Plugin Name: Nobs • Share Buttons
  * Plugin URI: https://sharebuttons.social
  * Author: Geoffrey Crofte
- * Updated:
- *     - 2.3.2 - Better accessibility (keyboard navigation and screenreader) 
- *     - 2.0.0 - No jQuery needed anymore.
+ * Updated: 2.3.2 - No jQuery needed anymore.
  */
 ;
 document.addEventListener("DOMContentLoaded", function(event) {
@@ -412,6 +410,11 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
                 loader.classList.add('is-active')
                 loader.innerHTML = jsps.modalLoader;
+
+                // do something with datas[2]
+                // when multiple friends
+                // send currently &friend=email,email2
+                // should send &friend[]=email&friend[]=email2
 
                 var to_send = {
                     'action': 'jsps-email-friend',

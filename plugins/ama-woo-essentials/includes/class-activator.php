@@ -12,6 +12,7 @@ class Activator {
 	public static function activate() {
 
         $cartSettings = array(
+            'ama_woo_essentials_default_enable_hover_background_color' => '0',
             'ama_woo_essentials_default_text_color' => '#000000',
             'ama_woo_essentials_default_hover_text_color' => '#000000',
             'ama_woo_essentials_default_enable_hover_background_color' => '0',

@@ -69,6 +69,12 @@ jQuery(document).ready(function($) {
         $('#hover_border_width').val(selected_settings.hover_border_width);
 		
 		// Use a sliding effect for the initial state
+		if (selected_settings.enable_mini_cart_on_menu === '1') {
+			$('#mini_cart_container').show();
+		} else {
+			$('#mini_cart_container').hide();
+		}
+
 		if (selected_settings.enable_hover_background_color === '1') {
 			$('#hover_background_color_container').show();
 		} else {
@@ -94,6 +100,11 @@ jQuery(document).ready(function($) {
 
     // Bind input change events to update preview dynamically
     $('#text_color, #hover_text_color, #hover_background_color, #hover_text_decoration, #hover_opacity, #hover_text_decoration_style, #padding_top, #hover_border_style, #hover_border_color, #hover_border_width' ).on('input', updatePreview);
+
+	//Bind the checkbox change event to update the preview and toggle the field visibility:
+	$('#enable_mini_cart_on_menu').on('change', function() {
+		toggleMiniCartFields();
+	});	
 
 	//Bind the checkbox change event to update the preview and toggle the field visibility:
 	$('#enable_hover_background_color').on('change', function() {
@@ -136,6 +147,14 @@ jQuery(document).ready(function($) {
 		toggleHoverTextDecorationStyleField();
 		toggleHoverBorderDetailsFields();
 	});
+
+    function toggleMiniCartFields() {
+		if ($('#enable_mini_cart_on_menu').is(':checked')) {
+			$('#mini_cart_container').slideDown();
+		} else {
+			$('#mini_cart_container').slideUp();
+		}
+	}	
 
 	function toggleHoverBackgroundColorField() {
 		if ($('#enable_hover_background_color').is(':checked')) {

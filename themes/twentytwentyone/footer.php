@@ -60,7 +60,6 @@
 			}
 			?>
 
-
 			<div class="powered-by">
 				<?php
 				printf(
@@ -70,7 +69,6 @@
 				);
 				?>
 			</div><!-- .powered-by -->
-
 
 		</div><!-- .site-info -->
 	</footer><!-- #colophon -->

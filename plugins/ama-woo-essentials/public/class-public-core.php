@@ -128,10 +128,10 @@ class Public_Core {
 
 	// Adds the mini cart block to the main menu
 	function add_mini_cart_menu_item( $items, $args ) {
-		if ( $args->theme_location === 'primary' ) {
+		if ( $args->theme_location === 'primary' && get_option( "ama_woo_essentials_selected_enable_mini_cart_on_menu" ) === '1') {
 			ob_start();
 			?>
-			<!-- wp:woocommerce/mini-cart /-->
+			<!-- wp:woocommerce/mini-cart {"addToCartBehaviour":"open_drawer","hasHiddenPrice":false} /-->
 			<?php
 			$mini_cart_block = ob_get_clean();
 			$items .= '<li class="menu-item mini-cart-block">' . do_blocks( $mini_cart_block ) . '</li>';

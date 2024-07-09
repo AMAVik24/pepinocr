@@ -31,6 +31,13 @@ class DataStore extends SqlQuery {
 	protected $cache_timeout = 3600;
 
 	/**
+	 * Cache identifier.
+	 *
+	 * @var string
+	 */
+	protected $cache_key = '';
+
+	/**
 	 * Table used as a data store for this report.
 	 *
 	 * @var string
@@ -50,6 +57,13 @@ class DataStore extends SqlQuery {
 	 * @var array
 	 */
 	protected $column_types = array();
+
+	/**
+	 * SQL columns to select in the db query.
+	 *
+	 * @var array
+	 */
+	protected $report_columns = array();
 
 	// @todo This does not really belong here, maybe factor out the comparison as separate class?
 	/**
@@ -129,7 +143,7 @@ class DataStore extends SqlQuery {
 		self::set_db_table_name();
 		$this->assign_report_columns();
 
-		if ( property_exists( $this, 'report_columns' ) ) {
+		if ( $this->report_columns ) {
 			$this->report_columns = apply_filters(
 				'woocommerce_admin_report_columns',
 				$this->report_columns,
@@ -1331,6 +1345,7 @@ class DataStore extends SqlQuery {
 					continue;
 				}
 
+				$term_id = '';
 				// If the tuple is numeric, assume these are IDs.
 				if ( is_numeric( $attribute_term[0] ) && is_numeric( $attribute_term[1] ) ) {
 					$attribute_id = intval( $attribute_term[0] );
@@ -1360,6 +1375,10 @@ class DataStore extends SqlQuery {
 					// Assume these are a custom attribute slug/value pair.
 					$meta_key   = esc_sql( $attribute_term[0] );
 					$meta_value = esc_sql( $attribute_term[1] );
+					$attr_term  = get_term_by( 'slug', $meta_value, $meta_key );
+					if ( false !== $attr_term ) {
+						$term_id = $attr_term->term_id;
+					}
 				}
 
 				$join_alias       = 'orderitemmeta1';
@@ -1377,8 +1396,23 @@ class DataStore extends SqlQuery {
 					$sql_clauses['join'][] = "JOIN {$wpdb->prefix}woocommerce_order_itemmeta as {$join_alias} ON {$join_alias}.order_item_id = {$table_to_join_on}.order_item_id";
 				}
 
-				// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-				$sql_clauses['where'][] = $wpdb->prepare( "( {$join_alias}.meta_key = %s AND {$join_alias}.meta_value {$comparator} %s )", $meta_key, $meta_value );
+				$in_comparator = '=' === $comparator ? 'in' : 'not in';
+
+				// Add subquery for products ordered using attributes not used in variations.
+				$term_attribute_subquery = "select product_id from {$wpdb->prefix}wc_product_attributes_lookup where is_variation_attribute=0 and term_id = %s";
+				// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+				// phpcs:disable WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber
+				$sql_clauses['where'][] = $wpdb->prepare(
+					"
+					( ( {$join_alias}.meta_key = %s AND {$join_alias}.meta_value {$comparator} %s ) or (
+						{$wpdb->prefix}wc_order_product_lookup.variation_id = 0 and {$wpdb->prefix}wc_order_product_lookup.product_id {$in_comparator} ({$term_attribute_subquery})
+					) )",
+					$meta_key,
+					$meta_value,
+					$term_id,
+				);
+				// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+				// phpcs:enable WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber
 			}
 		}
 

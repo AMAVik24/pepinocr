@@ -2,14 +2,14 @@
 /**
  * Plugin Name: WooCommerce
  * Plugin URI: https://woocommerce.com/
- * Description: An eCommerce toolkit that helps you sell anything. Beautifully.
- * Version: 7.8.0
+ * Description: An ecommerce toolkit that helps you sell anything. Beautifully.
+ * Version: 9.0.2
  * Author: Automattic
  * Author URI: https://woocommerce.com
  * Text Domain: woocommerce
  * Domain Path: /i18n/languages/
- * Requires at least: 6.1
- * Requires PHP: 7.3
+ * Requires at least: 6.4
+ * Requires PHP: 7.4
  *
  * @package WooCommerce
  */
@@ -18,6 +18,10 @@ defined( 'ABSPATH' ) || exit;
 
 if ( ! defined( 'WC_PLUGIN_FILE' ) ) {
 	define( 'WC_PLUGIN_FILE', __FILE__ );
+}
+
+if ( ! defined( 'WC_BLOCKS_IS_FEATURE_PLUGIN' ) ) {
+	define( 'WC_BLOCKS_IS_FEATURE_PLUGIN', true );
 }
 
 // Load core packages and the autoloader.
@@ -60,3 +64,8 @@ function wc_get_container() {
 
 // Global for backwards compatibility.
 $GLOBALS['woocommerce'] = WC();
+
+// Jetpack's Rest_Authentication needs to be initialized even before plugins_loaded.
+if ( class_exists( \Automattic\Jetpack\Connection\Rest_Authentication::class ) ) {
+	\Automattic\Jetpack\Connection\Rest_Authentication::init();
+}
