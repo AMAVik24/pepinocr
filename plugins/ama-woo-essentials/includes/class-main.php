@@ -38,7 +38,9 @@ class Main {
 		$plugin_admin = new \AmaWooEssentials\Admin\Admin_Core( $this->get_plugin_name(), $this->get_version() );
         $this->loader->add_action( 'admin_menu', $plugin_admin, 'add_admin_menu' );
 		$this->loader->add_action( 'admin_init', $plugin_admin, 'register_settings');
+		$this->loader->add_action( 'admin_init', $plugin_admin, 'handle_toggle_mini_cart_form_submission');
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
+		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
 
 	}
 	

@@ -75,15 +75,23 @@ class Admin_Core {
 	}
 
 	/**
-	 * Register the JavaScript for the admin area.
+	 * Register the stylesheets for the admin area 
+	 */
+
+	public function enqueue_styles() {
+		wp_enqueue_style( $this->plugin_name . '-admin', plugin_dir_url( __FILE__ ) . 'css/admin.css', array(), $this->version, 'all' );
+	}
+
+	/**
+	 * Register the JavaScript for the admin area 
 	 */
 	public function enqueue_scripts() {
-		wp_enqueue_script( $this->plugin_name . '-admin', plugin_dir_url( __FILE__ ) . 'js/admin.js', array( 'jquery' ), $this->version, false );
+			wp_enqueue_script( $this->plugin_name . '-admin', plugin_dir_url( __FILE__ ) . 'js/admin.js', array( 'jquery' ), $this->version, false );
 
-		wp_localize_script($this->plugin_name . '-admin', 'miniCartOptions', array(
-			'default_settings' => $this->default_settings,
-			'selected_settings' => $this->selected_settings,
-		));
+			wp_localize_script($this->plugin_name . '-admin', 'miniCartOptions', array(
+				'default_settings' => $this->default_settings,
+				'selected_settings' => $this->selected_settings,
+			));
 	}
 	
 	/**
@@ -105,7 +113,19 @@ class Admin_Core {
 	public function settings_page() {
 
 		?>
-		<div class="wrap">
+		
+		<form method="post" action="">
+			<?php
+			$current_option_value = get_option('ama_woo_essentials_selected_enable_mini_cart_on_menu', '0');
+			$new_value = ($current_option_value === '1') ? '0' : '1';
+			?>
+			<input type="hidden" name="ama_woo_essentials_selected_enable_mini_cart_on_menu" value="<?php echo $new_value; ?>" />
+			<button type="submit" id="toggle_mini_cart_button" class="<?php echo ($current_option_value === '1') ? 'enabled' : 'disabled'; ?>">
+				<?php echo ($current_option_value === '1') ? __('Disable Custom Mini Cart on Menu', 'ama-woo-essentials') : __('Enable Custom Mini Cart on Menu', 'ama-woo-essentials'); ?>
+			</button>
+		</form>
+
+		<div class="wrap" id="mini_cart_container">
 			<h1><?php _e('Mini Cart Settings', 'ama-woo-essentials')?></h1>
 
 			<h2><?php _e('Preview', 'ama-woo-essentials')?></h2>
@@ -135,126 +155,115 @@ class Admin_Core {
 				?>
 				<table class="form-table">
 					<tr valign="top">
-						<th scope="row"><label for="enable_mini_cart_on_menu"><?php _e('Enable the Mini Cart on the Main Menu', 'ama-woo-essentials'); ?></label></th>
+						<th scope="row"><label for="text_color"><?php _e('Main Color', 'ama-woo-essentials'); ?></label></th>
 						<td>
-							<input type="checkbox" id="enable_mini_cart_on_menu" name="ama_woo_essentials_selected_enable_mini_cart_on_menu" value="1" <?php checked(get_option('ama_woo_essentials_selected_enable_mini_cart_on_menu', '0'), '1'); ?> />
-							<p class="description"><?php _e('Check to enable the Mini Cart on the Main Menu.', 'ama-woo-essentials'); ?></p>
+							<input type="color" id="text_color" name="ama_woo_essentials_selected_text_color" value="<?php echo $this->selected_settings['text_color']; ?>" />
+							<p class="description"><?php _e('Select the main color of the cart.', 'ama-woo-essentials'); ?></p>
+						</td>
+					</tr>
+					<tr valign="top">
+						<th scope="row"><label for="hover_text_color"><?php _e('Hover Color', 'ama-woo-essentials'); ?></label></th>
+						<td>
+							<input type="color" id="hover_text_color" name="ama_woo_essentials_selected_hover_text_color" value="<?php echo $this->selected_settings['hover_text_color']; ?>" />
+							<p class="description"><?php _e('Select the hover color.', 'ama-woo-essentials'); ?></p>
+						</td>
+					</tr>
+					<tr valign="top">
+						<th scope="row"><label for="enable_hover_background_color"><?php _e('Enable Hover Background Color', 'ama-woo-essentials'); ?></label></th>
+						<td>
+							<input type="checkbox" id="enable_hover_background_color" name="ama_woo_essentials_selected_enable_hover_background_color" value="1" <?php checked(get_option('ama_woo_essentials_selected_enable_hover_background_color', '0'), '1'); ?> />
+							<p class="description"><?php _e('Check to enable hover background color.', 'ama-woo-essentials'); ?></p>
 						</td>
 					</tr>
 				</table>
-				<div id="mini_cart_container">
+				<div id="hover_background_color_container">
 					<table class="form-table">
 						<tr valign="top">
-							<th scope="row"><label for="text_color"><?php _e('Main Color', 'ama-woo-essentials'); ?></label></th>
+							<th scope="row"><label for="hover_background_color"><?php _e('Hover Background Color', 'ama-woo-essentials'); ?></label></th>
 							<td>
-								<input type="color" id="text_color" name="ama_woo_essentials_selected_text_color" value="<?php echo $this->selected_settings['text_color']; ?>" />
-								<p class="description"><?php _e('Select the main color of the cart.', 'ama-woo-essentials'); ?></p>
-							</td>
-						</tr>
-						<tr valign="top">
-							<th scope="row"><label for="hover_text_color"><?php _e('Hover Color', 'ama-woo-essentials'); ?></label></th>
-							<td>
-								<input type="color" id="hover_text_color" name="ama_woo_essentials_selected_hover_text_color" value="<?php echo $this->selected_settings['hover_text_color']; ?>" />
-								<p class="description"><?php _e('Select the hover color.', 'ama-woo-essentials'); ?></p>
-							</td>
-						</tr>
-						<tr valign="top">
-							<th scope="row"><label for="enable_hover_background_color"><?php _e('Enable Hover Background Color', 'ama-woo-essentials'); ?></label></th>
-							<td>
-								<input type="checkbox" id="enable_hover_background_color" name="ama_woo_essentials_selected_enable_hover_background_color" value="1" <?php checked(get_option('ama_woo_essentials_selected_enable_hover_background_color', '0'), '1'); ?> />
-								<p class="description"><?php _e('Check to enable hover background color.', 'ama-woo-essentials'); ?></p>
+								<input type="color" id="hover_background_color" name="ama_woo_essentials_selected_hover_background_color" value="<?php echo $this->selected_settings['hover_background_color']; ?>" />
+								<p class="description"><?php _e('Select the hover background color.', 'ama-woo-essentials'); ?></p>
 							</td>
 						</tr>
 					</table>
-					<div id="hover_background_color_container">
-						<table class="form-table">
-							<tr valign="top">
-								<th scope="row"><label for="hover_background_color"><?php _e('Hover Background Color', 'ama-woo-essentials'); ?></label></th>
-								<td>
-									<input type="color" id="hover_background_color" name="ama_woo_essentials_selected_hover_background_color" value="<?php echo $this->selected_settings['hover_background_color']; ?>" />
-									<p class="description"><?php _e('Select the hover background color.', 'ama-woo-essentials'); ?></p>
-								</td>
-							</tr>
-						</table>
-					</div>
+				</div>
+				<table class="form-table">
+					<tr valign="top">
+						<th scope="row"><label for="hover_text_decoration"><?php _e('Hover Decoration', 'ama-woo-essentials'); ?></label></th>
+						<td>
+							<select id="hover_text_decoration" name="ama_woo_essentials_selected_hover_text_decoration">
+								<option value="none" <?php selected($this->selected_settings['hover_text_decoration'], 'none'); ?>><?php _e('None', 'ama-woo-essentials'); ?></option>
+								<option value="underline" <?php selected($this->selected_settings['hover_text_decoration'], 'underline'); ?>><?php _e('Underline', 'ama-woo-essentials'); ?></option>
+								<option value="overline" <?php selected($this->selected_settings['hover_text_decoration'], 'overline'); ?>><?php _e('Overline', 'ama-woo-essentials'); ?></option>
+								<option value="line-through" <?php selected($this->selected_settings['hover_text_decoration'], 'line-through'); ?>><?php _e('Line Through', 'ama-woo-essentials'); ?></option>
+								<option value="inherit" <?php selected($this->selected_settings['hover_text_decoration'], 'inherit'); ?>><?php _e('Inherit', 'ama-woo-essentials'); ?></option>
+							</select>
+							<p class="description"><?php _e('Select the hover decoration style.', 'ama-woo-essentials'); ?></p>
+						</td>
+					</tr>
+				</table>
+				<div id="hover_text_decoration_style_container">
 					<table class="form-table">
 						<tr valign="top">
-							<th scope="row"><label for="hover_text_decoration"><?php _e('Hover Decoration', 'ama-woo-essentials'); ?></label></th>
+							<th scope="row"><label for="hover_text_decoration_style"><?php _e('Hover Decoration Style', 'ama-woo-essentials'); ?></label></th>
 							<td>
-								<select id="hover_text_decoration" name="ama_woo_essentials_selected_hover_text_decoration">
-									<option value="none" <?php selected($this->selected_settings['hover_text_decoration'], 'none'); ?>><?php _e('None', 'ama-woo-essentials'); ?></option>
-									<option value="underline" <?php selected($this->selected_settings['hover_text_decoration'], 'underline'); ?>><?php _e('Underline', 'ama-woo-essentials'); ?></option>
-									<option value="overline" <?php selected($this->selected_settings['hover_text_decoration'], 'overline'); ?>><?php _e('Overline', 'ama-woo-essentials'); ?></option>
-									<option value="line-through" <?php selected($this->selected_settings['hover_text_decoration'], 'line-through'); ?>><?php _e('Line Through', 'ama-woo-essentials'); ?></option>
-									<option value="inherit" <?php selected($this->selected_settings['hover_text_decoration'], 'inherit'); ?>><?php _e('Inherit', 'ama-woo-essentials'); ?></option>
+								<select id="hover_text_decoration_style" name="ama_woo_essentials_selected_hover_text_decoration_style">
+									<option value="solid" <?php selected($this->selected_settings['hover_text_decoration_style'], 'solid'); ?>><?php _e('Solid', 'ama-woo-essentials'); ?></option>
+									<option value="double" <?php selected($this->selected_settings['hover_text_decoration_style'], 'double'); ?>><?php _e('Double', 'ama-woo-essentials'); ?></option>
+									<option value="dotted" <?php selected($this->selected_settings['hover_text_decoration_style'], 'dotted'); ?>><?php _e('Dotted', 'ama-woo-essentials'); ?></option>
+									<option value="dashed" <?php selected($this->selected_settings['hover_text_decoration_style'], 'dashed'); ?>><?php _e('Dashed', 'ama-woo-essentials'); ?></option>
+									<option value="wavy" <?php selected($this->selected_settings['hover_text_decoration_style'], 'wavy'); ?>><?php _e('Wavy', 'ama-woo-essentials'); ?></option>
 								</select>
 								<p class="description"><?php _e('Select the hover decoration style.', 'ama-woo-essentials'); ?></p>
 							</td>
 						</tr>
 					</table>
-					<div id="hover_text_decoration_style_container">
-						<table class="form-table">
-							<tr valign="top">
-								<th scope="row"><label for="hover_text_decoration_style"><?php _e('Hover Decoration Style', 'ama-woo-essentials'); ?></label></th>
-								<td>
-									<select id="hover_text_decoration_style" name="ama_woo_essentials_selected_hover_text_decoration_style">
-										<option value="solid" <?php selected($this->selected_settings['hover_text_decoration_style'], 'solid'); ?>><?php _e('Solid', 'ama-woo-essentials'); ?></option>
-										<option value="double" <?php selected($this->selected_settings['hover_text_decoration_style'], 'double'); ?>><?php _e('Double', 'ama-woo-essentials'); ?></option>
-										<option value="dotted" <?php selected($this->selected_settings['hover_text_decoration_style'], 'dotted'); ?>><?php _e('Dotted', 'ama-woo-essentials'); ?></option>
-										<option value="dashed" <?php selected($this->selected_settings['hover_text_decoration_style'], 'dashed'); ?>><?php _e('Dashed', 'ama-woo-essentials'); ?></option>
-										<option value="wavy" <?php selected($this->selected_settings['hover_text_decoration_style'], 'wavy'); ?>><?php _e('Wavy', 'ama-woo-essentials'); ?></option>
-									</select>
-									<p class="description"><?php _e('Select the hover decoration style.', 'ama-woo-essentials'); ?></p>
-								</td>
-							</tr>
-						</table>
-					</div>
+				</div>
+				<table class="form-table">
+					<tr valign="top">
+						<th scope="row"><label for="hover_opacity"><?php _e('Hover Opacity', 'ama-woo-essentials'); ?></label></th>
+						<td>
+							<input type="number" id="hover_opacity" name="ama_woo_essentials_selected_hover_opacity" value="<?php echo $this->selected_settings['hover_opacity']; ?>" step="0.1" min="0" max="1" />
+							<p class="description"><?php _e('Set the hover opacity (0 to 1).', 'ama-woo-essentials'); ?></p>
+						</td>
+					</tr>
+					<tr valign="top">
+						<th scope="row"><label for="padding_top"><?php _e('Padding Top', 'ama-woo-essentials'); ?></label></th>
+						<td>
+							<input type="number" id="padding_top" name="ama_woo_essentials_selected_padding_top" value="<?php echo $this->selected_settings['padding_top']; ?>" step="1" min="0" max="100" />
+							<p class="description"><?php _e('Set the top padding value to adjust the height of the cart (0 to 100).', 'ama-woo-essentials'); ?></p>
+						</td>
+					</tr>
+					<tr valign="top">
+						<th scope="row"><label for="hover_border_style"><?php _e('Hover Border Style', 'ama-woo-essentials'); ?></label></th>
+						<td>
+							<select id="hover_border_style" name="ama_woo_essentials_selected_hover_border_style">
+								<option value="none" <?php selected($this->selected_settings['hover_border_style'], 'none'); ?>><?php _e('None', 'ama-woo-essentials'); ?></option>
+								<option value="solid" <?php selected($this->selected_settings['hover_border_style'], 'solid'); ?>><?php _e('Solid', 'ama-woo-essentials'); ?></option>
+								<option value="dashed" <?php selected($this->selected_settings['hover_border_style'], 'dashed'); ?>><?php _e('Dashed', 'ama-woo-essentials'); ?></option>
+								<option value="dotted" <?php selected($this->selected_settings['hover_border_style'], 'dotted'); ?>><?php _e('Dotted', 'ama-woo-essentials'); ?></option>
+							</select>
+							<p class="description"><?php _e('Select the hover border style.', 'ama-woo-essentials'); ?></p>
+						</td>
+					</tr>
+				</table>
+				<div id="hover_border_container">
 					<table class="form-table">
 						<tr valign="top">
-							<th scope="row"><label for="hover_opacity"><?php _e('Hover Opacity', 'ama-woo-essentials'); ?></label></th>
+							<th scope="row"><label for="hover_border_color"><?php _e('Hover Border Color', 'ama-woo-essentials'); ?></label></th>
 							<td>
-								<input type="number" id="hover_opacity" name="ama_woo_essentials_selected_hover_opacity" value="<?php echo $this->selected_settings['hover_opacity']; ?>" step="0.1" min="0" max="1" />
-								<p class="description"><?php _e('Set the hover opacity (0 to 1).', 'ama-woo-essentials'); ?></p>
+								<input type="color" id="hover_border_color" name="ama_woo_essentials_selected_hover_border_color" value="<?php echo $this->selected_settings['hover_border_color']; ?>" />
+								<p class="description"><?php _e('Select the hover border color.', 'ama-woo-essentials'); ?></p>
 							</td>
 						</tr>
 						<tr valign="top">
-							<th scope="row"><label for="padding_top"><?php _e('Padding Top', 'ama-woo-essentials'); ?></label></th>
+							<th scope="row"><label for="hover_border_width"><?php _e('Hover Border Width', 'ama-woo-essentials'); ?></label></th>
 							<td>
-								<input type="number" id="padding_top" name="ama_woo_essentials_selected_padding_top" value="<?php echo $this->selected_settings['padding_top']; ?>" step="1" min="0" max="100" />
-								<p class="description"><?php _e('Set the top padding value to adjust the height of the cart (0 to 100).', 'ama-woo-essentials'); ?></p>
-							</td>
-						</tr>
-						<tr valign="top">
-							<th scope="row"><label for="hover_border_style"><?php _e('Hover Border Style', 'ama-woo-essentials'); ?></label></th>
-							<td>
-								<select id="hover_border_style" name="ama_woo_essentials_selected_hover_border_style">
-									<option value="none" <?php selected($this->selected_settings['hover_border_style'], 'none'); ?>><?php _e('None', 'ama-woo-essentials'); ?></option>
-									<option value="solid" <?php selected($this->selected_settings['hover_border_style'], 'solid'); ?>><?php _e('Solid', 'ama-woo-essentials'); ?></option>
-									<option value="dashed" <?php selected($this->selected_settings['hover_border_style'], 'dashed'); ?>><?php _e('Dashed', 'ama-woo-essentials'); ?></option>
-									<option value="dotted" <?php selected($this->selected_settings['hover_border_style'], 'dotted'); ?>><?php _e('Dotted', 'ama-woo-essentials'); ?></option>
-								</select>
-								<p class="description"><?php _e('Select the hover border style.', 'ama-woo-essentials'); ?></p>
+								<input type="number" id="hover_border_width" name="ama_woo_essentials_selected_hover_border_width" value="<?php echo $this->selected_settings['hover_border_width']; ?>" step="1" min="0" max="10" />
+								<p class="description"><?php _e('Set the hover border width (0 to 10).', 'ama-woo-essentials'); ?></p>
 							</td>
 						</tr>
 					</table>
-					<div id="hover_border_container">
-						<table class="form-table">
-							<tr valign="top">
-								<th scope="row"><label for="hover_border_color"><?php _e('Hover Border Color', 'ama-woo-essentials'); ?></label></th>
-								<td>
-									<input type="color" id="hover_border_color" name="ama_woo_essentials_selected_hover_border_color" value="<?php echo $this->selected_settings['hover_border_color']; ?>" />
-									<p class="description"><?php _e('Select the hover border color.', 'ama-woo-essentials'); ?></p>
-								</td>
-							</tr>
-							<tr valign="top">
-								<th scope="row"><label for="hover_border_width"><?php _e('Hover Border Width', 'ama-woo-essentials'); ?></label></th>
-								<td>
-									<input type="number" id="hover_border_width" name="ama_woo_essentials_selected_hover_border_width" value="<?php echo $this->selected_settings['hover_border_width']; ?>" step="1" min="0" max="10" />
-									<p class="description"><?php _e('Set the hover border width (0 to 10).', 'ama-woo-essentials'); ?></p>
-								</td>
-							</tr>
-						</table>
-					</div>
 				</div>
 			<?php submit_button(); ?>
 			</form>
@@ -265,7 +274,6 @@ class Admin_Core {
 	}
 
 	public function register_settings() {
-        register_setting('ama-woo-essentials-settings-group', 'ama_woo_essentials_selected_enable_mini_cart_on_menu');
         register_setting('ama-woo-essentials-settings-group', 'ama_woo_essentials_selected_text_color');
         register_setting('ama-woo-essentials-settings-group', 'ama_woo_essentials_selected_hover_text_color');
 		register_setting('ama-woo-essentials-settings-group', 'ama_woo_essentials_selected_enable_hover_background_color');
@@ -278,4 +286,16 @@ class Admin_Core {
 		register_setting('ama-woo-essentials-settings-group', 'ama_woo_essentials_selected_hover_border_color');
 		register_setting('ama-woo-essentials-settings-group', 'ama_woo_essentials_selected_hover_border_width');
     }
+
+	function handle_toggle_mini_cart_form_submission() {
+		if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ama_woo_essentials_selected_enable_mini_cart_on_menu'])) {
+			$new_value = sanitize_text_field($_POST['ama_woo_essentials_selected_enable_mini_cart_on_menu']);
+			update_option('ama_woo_essentials_selected_enable_mini_cart_on_menu', $new_value);
+			// Refresh the page to reflect the changes
+			wp_redirect($_SERVER['REQUEST_URI']);
+			exit;
+		}
+	}
+	
+	
 }

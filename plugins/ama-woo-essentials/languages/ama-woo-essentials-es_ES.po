@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ama_woo_essentials\n"
-"POT-Creation-Date: 2024-07-10 19:43-0600\n"
-"PO-Revision-Date: 2024-07-10 19:44-0600\n"
+"POT-Creation-Date: 2024-07-15 20:01-0600\n"
+"PO-Revision-Date: 2024-07-15 20:04-0600\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: es\n"
@@ -15,149 +15,153 @@ msgstr ""
 "X-Poedit-KeywordsList: __;_e;_x;_n;esc_html__;esc_html_e;esc_attr__\n"
 "X-Poedit-SearchPath-0: class-admin-core.php\n"
 
-#: class-admin-core.php:109
-#, fuzzy
+#: class-admin-core.php:124
+msgid "Disable Custom Mini Cart on Menu"
+msgstr "Desactivar el Mini Carrito en el Menú Principal"
+
+#: class-admin-core.php:124
+msgid "Enable Custom Mini Cart on Menu"
+msgstr "Activar el Mini Carrito en el Menú Principal"
+
+#: class-admin-core.php:129
 msgid "Mini Cart Settings"
 msgstr "Configuración del Mini Carrito"
 
-#: class-admin-core.php:111
+#: class-admin-core.php:131
 msgid "Preview"
 msgstr "Vista previa"
 
-#: class-admin-core.php:129
+#: class-admin-core.php:149
 msgid "Settings"
 msgstr "Configuración"
 
-#: class-admin-core.php:138
-msgid "Enable the Mini Cart on the Main Menu"
-msgstr "Activar el Mini Carrito en el Menú Principal"
-
-#: class-admin-core.php:141
-msgid "Check to enable the Mini Cart on the Main Menu."
-msgstr "Marque para activar el Mini Carrito en el menú principal."
-
-#: class-admin-core.php:148
+#: class-admin-core.php:158
 msgid "Main Color"
 msgstr "Color principal"
 
-#: class-admin-core.php:151
+#: class-admin-core.php:161
 msgid "Select the main color of the cart."
 msgstr "Seleccione el color principal del carrito."
 
-#: class-admin-core.php:155
+#: class-admin-core.php:165
 msgid "Hover Color"
 msgstr "Color al pasar el ratón"
 
-#: class-admin-core.php:158
+#: class-admin-core.php:168
 msgid "Select the hover color."
 msgstr "Seleccione el color al pasar el ratón."
 
-#: class-admin-core.php:162
+#: class-admin-core.php:172
 msgid "Enable Hover Background Color"
 msgstr "Habilitar color de fondo al pasar el ratón"
 
-#: class-admin-core.php:165
+#: class-admin-core.php:175
 msgid "Check to enable hover background color."
 msgstr "Marque para habilitar el color de fondo al pasar el ratón."
 
-#: class-admin-core.php:172
+#: class-admin-core.php:182
 msgid "Hover Background Color"
 msgstr "Color de fondo al pasar el ratón"
 
-#: class-admin-core.php:175
+#: class-admin-core.php:185
 msgid "Select the hover background color."
 msgstr "Seleccione el color de fondo al pasar el ratón."
 
-#: class-admin-core.php:182
+#: class-admin-core.php:192
 msgid "Hover Decoration"
 msgstr "Decoración al pasar el ratón"
 
-#: class-admin-core.php:185 class-admin-core.php:231
+#: class-admin-core.php:195 class-admin-core.php:241
 msgid "None"
 msgstr "Ninguno"
 
-#: class-admin-core.php:186
+#: class-admin-core.php:196
 msgid "Underline"
 msgstr "Subrayado"
 
-#: class-admin-core.php:187
+#: class-admin-core.php:197
 msgid "Overline"
 msgstr "Sobrerayado"
 
-#: class-admin-core.php:188
+#: class-admin-core.php:198
 msgid "Line Through"
 msgstr "Tachado"
 
-#: class-admin-core.php:189
+#: class-admin-core.php:199
 msgid "Inherit"
 msgstr "Heredado"
 
-#: class-admin-core.php:191 class-admin-core.php:207
+#: class-admin-core.php:201 class-admin-core.php:217
 msgid "Select the hover decoration style."
 msgstr "Seleccione el estilo de decoración al pasar el ratón."
 
-#: class-admin-core.php:198
+#: class-admin-core.php:208
 msgid "Hover Decoration Style"
 msgstr "Estilo de decoración al pasar el ratón"
 
-#: class-admin-core.php:201 class-admin-core.php:232
+#: class-admin-core.php:211 class-admin-core.php:242
 msgid "Solid"
 msgstr "Sólido"
 
-#: class-admin-core.php:202
+#: class-admin-core.php:212
 msgid "Double"
 msgstr "Doble"
 
-#: class-admin-core.php:203 class-admin-core.php:234
+#: class-admin-core.php:213 class-admin-core.php:244
 msgid "Dotted"
 msgstr "Punteado"
 
-#: class-admin-core.php:204 class-admin-core.php:233
+#: class-admin-core.php:214 class-admin-core.php:243
 msgid "Dashed"
 msgstr "Guiones"
 
-#: class-admin-core.php:205
+#: class-admin-core.php:215
 msgid "Wavy"
 msgstr "Ondulado"
 
-#: class-admin-core.php:214
+#: class-admin-core.php:224
 msgid "Hover Opacity"
 msgstr "Opacidad al pasar el ratón"
 
-#: class-admin-core.php:217
+#: class-admin-core.php:227
 msgid "Set the hover opacity (0 to 1)."
 msgstr "Establezca la opacidad al pasar el ratón (0 a 1)."
 
-#: class-admin-core.php:221
+#: class-admin-core.php:231
 msgid "Padding Top"
 msgstr "Relleno superior"
 
-#: class-admin-core.php:224
+#: class-admin-core.php:234
 msgid "Set the top padding value to adjust the height of the cart (0 to 100)."
 msgstr ""
 "Establezca el valor de relleno superior para ajustar la altura del carrito "
 "(0 a 100)."
 
-#: class-admin-core.php:228
+#: class-admin-core.php:238
 msgid "Hover Border Style"
 msgstr "Estilo de borde al pasar el ratón"
 
-#: class-admin-core.php:236
+#: class-admin-core.php:246
 msgid "Select the hover border style."
 msgstr "Seleccione el estilo de borde al pasar el ratón."
 
-#: class-admin-core.php:243
+#: class-admin-core.php:253
 msgid "Hover Border Color"
 msgstr "Color de borde al pasar el ratón"
 
-#: class-admin-core.php:246
+#: class-admin-core.php:256
 msgid "Select the hover border color."
 msgstr "Seleccione el color de borde al pasar el ratón."
 
-#: class-admin-core.php:250
+#: class-admin-core.php:260
 msgid "Hover Border Width"
 msgstr "Ancho de borde al pasar el ratón"
 
-#: class-admin-core.php:253
+#: class-admin-core.php:263
 msgid "Set the hover border width (0 to 10)."
 msgstr "Establezca el ancho de borde al pasar el ratón (0 a 10)."
+
+#~ msgid "Check and save changes to enable the Mini Cart on the Main Menu."
+#~ msgstr ""
+#~ "Marque y guarde los cambios para activar el Mini Carrito en el menú "
+#~ "principal."

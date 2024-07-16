@@ -73,24 +73,25 @@ class Public_Core {
 	 */
 
 	 public function enqueue_dinamic_styles() {
-
-		// Dynamic styles based on option
-		echo '  <style> .wc-block-mini-cart__button{
-				color: ' . $this->selected_settings['text_color'] . '!important;
-				background-color: transparent !important;
-				padding-top: ' . $this->selected_settings['padding_top'] . 'px !important;
-			}
-		
-			.wc-block-mini-cart__button:hover {
-				color:' . $this->selected_settings['hover_text_color'] . '!important;
-				background-color:' . ($this->selected_settings['enable_hover_background_color'] === '1' ? $this->selected_settings['hover_background_color'] : 'transparent') . '!important;
-				text-decoration:' . $this->selected_settings['hover_text_decoration'] . '!important;
-				opacity:' . $this->selected_settings['hover_opacity'] . '!important;
-				text-decoration-style:' . $this->selected_settings['hover_text_decoration_style'] . '!important;
-				border-style:' . $this->selected_settings['hover_border_style'] . '!important;
-				border-color:' . $this->selected_settings['hover_border_color'] . '!important;
-				border-width:' . $this->selected_settings['hover_border_width'] . 'px !important;
-			} </style>';
+		if ( get_option( "ama_woo_essentials_selected_enable_mini_cart_on_menu" ) === '1') {
+			// Dynamic styles based on option
+			echo '  <style> .wc-block-mini-cart__button{
+					color: ' . $this->selected_settings['text_color'] . '!important;
+					background-color: transparent !important;
+					padding-top: ' . $this->selected_settings['padding_top'] . 'px !important;
+				}
+			
+				.wc-block-mini-cart__button:hover {
+					color:' . $this->selected_settings['hover_text_color'] . '!important;
+					background-color:' . ($this->selected_settings['enable_hover_background_color'] === '1' ? $this->selected_settings['hover_background_color'] : 'transparent') . '!important;
+					text-decoration:' . $this->selected_settings['hover_text_decoration'] . '!important;
+					opacity:' . $this->selected_settings['hover_opacity'] . '!important;
+					text-decoration-style:' . $this->selected_settings['hover_text_decoration_style'] . '!important;
+					border-style:' . $this->selected_settings['hover_border_style'] . '!important;
+					border-color:' . $this->selected_settings['hover_border_color'] . '!important;
+					border-width:' . $this->selected_settings['hover_border_width'] . 'px !important;
+				} </style>';
+		}
 	}	
 
 	/**

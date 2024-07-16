@@ -11,7 +11,7 @@ class Deactivator {
 	 */
 	public static function deactivate() {
         $options = array(
-            'ama_woo_essentials_default_enable_hover_background_color',
+            'ama_woo_essentials_default_enable_mini_cart_on_menu',
             'ama_woo_essentials_default_text_color',
             'ama_woo_essentials_default_hover_text_color',
             'ama_woo_essentials_default_enable_hover_background_color',

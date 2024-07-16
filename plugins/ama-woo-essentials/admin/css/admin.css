@@ -1,0 +1,18 @@
+#toggle_mini_cart_button {
+    padding:  10px;
+    margin: 10px;
+}
+
+#toggle_mini_cart_button:hover {
+    cursor: pointer;
+}
+
+#toggle_mini_cart_button.enabled {
+    background-color: red;
+    color: white;
+}
+
+#toggle_mini_cart_button.disabled {
+    background-color: green;
+    color: white;
+}

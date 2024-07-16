@@ -5,52 +5,55 @@ jQuery(document).ready(function($) {
     // Function to update preview based on form inputs
     function updatePreview() {
 
-        var textColor = $('#text_color').val() || selected_settings.text_color;
-        var hoverTextColor = $('#hover_text_color').val() || selected_settings.hover_text_color;
-		var enableHoverBackgroundColor = $('#enable_hover_background_color').is(':checked') ? '1' : '0';
-        var hoverBackgroundColor = $('#hover_background_color').val() || selected_settings.hover_background_color;
-        var hoverTextDecoration = $('#hover_text_decoration').val() || selected_settings.hover_text_decoration;
-        var hoverOpacity = $('#hover_opacity').val() || selected_settings.hover_opacity;
-        var hoverTextDecorationStyle = $('#hover_text_decoration_style').val() || selected_settings.hover_text_decoration_style;
-        var paddingTop = $('#padding_top').val() || selected_settings.padding_top;
-        var hover_border_style = $('#hover_border_style').val() || selected_settings.hover_border_style;
-        var hover_border_color = $('#hover_border_color').val() || selected_settings.hover_border_color;
-        var hover_border_width = $('#hover_border_width').val() || selected_settings.hover_border_width;
+        if (selected_settings.enable_mini_cart_on_menu === '1') {
 
-        $('#mini-cart-preview').css({
-            'color': textColor,
-            'background-color': 'transparent',
-            'padding-top': paddingTop + 'px',
-        });
+            var textColor = $('#text_color').val() || selected_settings.text_color;
+            var hoverTextColor = $('#hover_text_color').val() || selected_settings.hover_text_color;
+            var enableHoverBackgroundColor = $('#enable_hover_background_color').is(':checked') ? '1' : '0';
+            var hoverBackgroundColor = $('#hover_background_color').val() || selected_settings.hover_background_color;
+            var hoverTextDecoration = $('#hover_text_decoration').val() || selected_settings.hover_text_decoration;
+            var hoverOpacity = $('#hover_opacity').val() || selected_settings.hover_opacity;
+            var hoverTextDecorationStyle = $('#hover_text_decoration_style').val() || selected_settings.hover_text_decoration_style;
+            var paddingTop = $('#padding_top').val() || selected_settings.padding_top;
+            var hover_border_style = $('#hover_border_style').val() || selected_settings.hover_border_style;
+            var hover_border_color = $('#hover_border_color').val() || selected_settings.hover_border_color;
+            var hover_border_width = $('#hover_border_width').val() || selected_settings.hover_border_width;
 
-        $('#mini-cart-preview').hover(
-            function() {
-                $(this).css({
-                    'color': hoverTextColor,
-                    'background-color': enableHoverBackgroundColor === '1' ? hoverBackgroundColor : 'transparent',
-                    'text-decoration': hoverTextDecoration,
-                    'opacity': hoverOpacity,
-                    'text-decoration-style': hoverTextDecorationStyle,
-					'border-style': hover_border_style,
-					'border-color': hover_border_color,
-					'border-width': hover_border_width + 'px'
+            $('#mini-cart-preview').css({
+                'color': textColor,
+                'background-color': 'transparent',
+                'padding-top': paddingTop + 'px',
+            });
 
-                });
-            },
-            function() {
-                $(this).css({
-                    'color': textColor,
-                    'background-color': 'transparent',
-                    'text-decoration': 'none',
-                    'opacity': '1',
-					'border-style': 'none'
-                });
-            }
-        );
+            $('#mini-cart-preview').hover(
+                function() {
+                    $(this).css({
+                        'color': hoverTextColor,
+                        'background-color': enableHoverBackgroundColor === '1' ? hoverBackgroundColor : 'transparent',
+                        'text-decoration': hoverTextDecoration,
+                        'opacity': hoverOpacity,
+                        'text-decoration-style': hoverTextDecorationStyle,
+                        'border-style': hover_border_style,
+                        'border-color': hover_border_color,
+                        'border-width': hover_border_width + 'px'
 
-        $('#mini-cart-preview').css({
-            'text-decoration-style': hoverTextDecorationStyle
-        });
+                    });
+                },
+                function() {
+                    $(this).css({
+                        'color': textColor,
+                        'background-color': 'transparent',
+                        'text-decoration': 'none',
+                        'opacity': '1',
+                        'border-style': 'none'
+                    });
+                }
+            );
+
+            $('#mini-cart-preview').css({
+                'text-decoration-style': hoverTextDecorationStyle
+            });
+        }
     }
 
     // Function to initialize form fields with stored option values
@@ -102,11 +105,6 @@ jQuery(document).ready(function($) {
     $('#text_color, #hover_text_color, #hover_background_color, #hover_text_decoration, #hover_opacity, #hover_text_decoration_style, #padding_top, #hover_border_style, #hover_border_color, #hover_border_width' ).on('input', updatePreview);
 
 	//Bind the checkbox change event to update the preview and toggle the field visibility:
-	$('#enable_mini_cart_on_menu').on('change', function() {
-		toggleMiniCartFields();
-	});	
-
-	//Bind the checkbox change event to update the preview and toggle the field visibility:
 	$('#enable_hover_background_color').on('change', function() {
 		toggleHoverBackgroundColorField();
 		updatePreview();
@@ -147,14 +145,6 @@ jQuery(document).ready(function($) {
 		toggleHoverTextDecorationStyleField();
 		toggleHoverBorderDetailsFields();
 	});
-
-    function toggleMiniCartFields() {
-		if ($('#enable_mini_cart_on_menu').is(':checked')) {
-			$('#mini_cart_container').slideDown();
-		} else {
-			$('#mini_cart_container').slideUp();
-		}
-	}	
 
 	function toggleHoverBackgroundColorField() {
 		if ($('#enable_hover_background_color').is(':checked')) {

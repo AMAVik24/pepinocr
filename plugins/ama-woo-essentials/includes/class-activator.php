@@ -12,7 +12,7 @@ class Activator {
 	public static function activate() {
 
         $cartSettings = array(
-            'ama_woo_essentials_default_enable_hover_background_color' => '0',
+            'ama_woo_essentials_default_enable_mini_cart_on_menu' => '0',
             'ama_woo_essentials_default_text_color' => '#000000',
             'ama_woo_essentials_default_hover_text_color' => '#000000',
             'ama_woo_essentials_default_enable_hover_background_color' => '0',
@@ -24,6 +24,7 @@ class Activator {
             'ama_woo_essentials_default_hover_border_style' => 'none',
             'ama_woo_essentials_default_hover_border_color' => '#000000',
             'ama_woo_essentials_default_hover_border_width' => '1',
+            'ama_woo_essentials_selected_enable_mini_cart_on_menu' => '',
             'ama_woo_essentials_selected_text_color' => '',
             'ama_woo_essentials_selected_hover_text_color' => '',
             'ama_woo_essentials_selected_enable_hover_background_color' => '',
