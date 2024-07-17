@@ -163,10 +163,10 @@ class Public_Core {
 			wp_get_theme()->get( 'Version' ) // This only works if you have Version defined in the style header.
 		);
 
-		} elseif (get_option( 'ama_site_essentials_parent_theme_loading_method' ) == "get_stylesheet") {
+		} elseif (get_option( 'ama_site_essentials_parent_theme_loading_method' ) == "get_stylesheet" || get_option( 'ama_site_essentials_parent_theme_loading_method' ) == "none") {
 
 			
-				$parenthandle = get_option( 'ama_site_essentials_parent_theme_handle' ); // This is 'twentyfifteen-style' for the Twenty Fifteen theme.
+				$parenthandle = get_option( 'ama_site_essentials_parent_theme_handle' ); 
 				$theme        = wp_get_theme();
 				wp_enqueue_style( $parenthandle,
 					get_template_directory_uri() . '/style.css',

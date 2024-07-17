@@ -245,10 +245,10 @@ class Admin_Core {
 				<h3><?php _e( 'Child Theme Configuration', 'ama-site-essentials' ); ?></h3>
 				<table class="form-table">
 					<tr>
-						<th scope="row"><label for="ama_site_essentials_parent_theme_handle"><?php _e( 'Parent Theme Handle', 'ama-site-essentials' ); ?></label></th>
+						<th scope="row"><label for="ama_site_essentials_parent_theme_handle"><?php _e( 'Parent Theme Stylesheet Handle', 'ama-site-essentials' ); ?></label></th>
 						<td>
 							<input type="text" id="ama_site_essentials_parent_theme_handle" name="ama_site_essentials_parent_theme_handle" class="regular-text" value="<?php echo esc_attr( get_option( 'ama_site_essentials_parent_theme_handle' ) ); ?>">
-							<p class="description"><?php _e( 'Enter the parent\'s theme handle. It\'s the first parameter of the wp_enqueue_style function in the functions.php file of the parent theme.', 'ama-site-essentials' ); ?></p>
+							<p class="description"><?php _e( 'Enter the parent\'s theme stylesheet handle. It\'s the first parameter of the wp_enqueue_style function in the functions.php file of the parent theme. If you can\'t find that function, you can leave this field empty.', 'ama-site-essentials' ); ?></p>
 						</td>
 					</tr>
 					<tr>
@@ -265,6 +265,10 @@ class Admin_Core {
 
 							<input type="radio" id="method3" name="ama_site_essentials_parent_theme_loading_method" value="both" <?php checked( 'both', $selected_method ); ?>>
 							<label for="method3"><?php _e( 'The parent theme loads both stylesheets', 'ama-site-essentials' ); ?></label>
+
+							<input type="radio" id="method4" name="ama_site_essentials_parent_theme_loading_method" value="none" <?php checked( 'none', $selected_method ); ?>>
+							<label for="method4"><?php _e( 'The parent theme doesn\'t load any stylesheets', 'ama-site-essentials' ); ?></label>
+
 							<p class="description"><?php _e( 'Select the stylesheet loading method used by the parent theme in its functions.php file.', 'ama-site-essentials' ); ?></p>
 						</td>
 					</tr>
