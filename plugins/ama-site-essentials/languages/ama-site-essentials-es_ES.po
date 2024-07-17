@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ama-site-essentials-i18n\n"
-"POT-Creation-Date: 2024-03-20 19:43-0600\n"
-"PO-Revision-Date: 2024-03-20 19:47-0600\n"
+"POT-Creation-Date: 2024-07-16 18:44-0600\n"
+"PO-Revision-Date: 2024-07-16 18:45-0600\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: es_ES\n"
@@ -172,26 +172,32 @@ msgid "Child Theme Configuration"
 msgstr "Configuración del Tema Hijo"
 
 #: class-admin-core.php:248
-msgid "Parent Theme Handle"
-msgstr "Identificador del Tema Padre"
+msgid "Parent Theme Stylesheet Handle"
+msgstr "Identificador de los Estilos del Tema Padre"
 
 #: class-admin-core.php:251
 msgid ""
-"Enter the parent's theme handle. It's the first parameter of the "
-"wp_enqueue_style function in the functions.php file of the parent theme."
+"Enter the parent's theme stylesheet handle. It's the first parameter of the "
+"wp_enqueue_style function in the functions.php file of the parent theme. If "
+"you can't find that function, you can leave this field empty."
 msgstr ""
 "Ingrese el identificador del tema padre. Es el primer parámetro de la "
-"función wp_enqueue_style en el archivo functions.php del tema padre."
+"función wp_enqueue_style en el archivo functions.php del tema padre. Si no "
+"encuentra esa función, puede dejar este campo vacío."
 
 #: class-admin-core.php:255
-msgid "Parent Theme Loading Method"
-msgstr "Método de Carga del Tema Padre"
+msgid "Parent Theme Stylesheet Loading Method"
+msgstr "Método de Carga de la Hoja de Estilo del Tema Padre"
 
 #: class-admin-core.php:267
 msgid "The parent theme loads both stylesheets"
 msgstr "El tema padre carga ambas hojas de estilo"
 
-#: class-admin-core.php:268
+#: class-admin-core.php:270
+msgid "The parent theme doesn't load any stylesheets"
+msgstr "El tema padre no carga ninguna hoja de estilo."
+
+#: class-admin-core.php:272
 msgid ""
 "Select the stylesheet loading method used by the parent theme in its "
 "functions.php file."
@@ -199,106 +205,106 @@ msgstr ""
 "Seleccione el método de carga de hojas de estilo utilizado por el tema padre "
 "en su archivo functions.php."
 
-#: class-admin-core.php:275
+#: class-admin-core.php:279
 msgid "Email Settings"
 msgstr "Configuración de Correo Electrónico"
 
-#: class-admin-core.php:278
+#: class-admin-core.php:282
 msgid "SMTP Username"
 msgstr "Nombre de Usuario SMTP"
 
-#: class-admin-core.php:278
+#: class-admin-core.php:282
 msgid "Enter the username of your SMTP server."
 msgstr "Ingrese el nombre de usuario de su servidor SMTP."
 
-#: class-admin-core.php:282
+#: class-admin-core.php:286
 msgid "Hidden for security"
 msgstr "Escondido por seguridad"
 
-#: class-admin-core.php:285
+#: class-admin-core.php:289
 msgid "SMTP Password"
 msgstr "Contraseña SMTP"
 
-#: class-admin-core.php:288
+#: class-admin-core.php:292
 msgid "Enter the password of your SMTP server."
 msgstr "Ingrese la contraseña de su servidor SMTP."
 
-#: class-admin-core.php:293
+#: class-admin-core.php:297
 msgid "SMTP Sender"
 msgstr "Remitente SMTP"
 
-#: class-admin-core.php:293
+#: class-admin-core.php:297
 msgid "Enter the email address from where the emails should be sent."
 msgstr ""
 "Ingrese la dirección de correo electrónico desde donde se deben enviar los "
 "correos electrónicos."
 
-#: class-admin-core.php:295
+#: class-admin-core.php:299
 msgid "SMTP Name"
 msgstr "Nombre SMTP"
 
-#: class-admin-core.php:295
+#: class-admin-core.php:299
 msgid "Enter the name that people will see from these emails."
 msgstr ""
 "Ingrese el nombre que verán las personas en estos correos electrónicos."
 
-#: class-admin-core.php:297
+#: class-admin-core.php:301
 msgid "SMTP Server"
 msgstr "Servidor SMTP"
 
-#: class-admin-core.php:297
+#: class-admin-core.php:301
 msgid "Enter the address (hostname) of your SMTP server."
 msgstr "Ingrese la dirección (nombre de host) de su servidor SMTP."
 
-#: class-admin-core.php:299
+#: class-admin-core.php:303
 msgid "SMTP Port"
 msgstr "Puerto SMTP"
 
-#: class-admin-core.php:299
+#: class-admin-core.php:303
 msgid "Enter the server port number."
 msgstr "Ingrese el número de puerto del servidor."
 
-#: class-admin-core.php:301
+#: class-admin-core.php:305
 msgid "SMTP Encryption"
 msgstr "Cifrado SMTP"
 
-#: class-admin-core.php:301
+#: class-admin-core.php:305
 msgid "Enter the encryption protocol (tls is recommended)."
 msgstr "Ingrese el protocolo de cifrado (se recomienda tls)."
 
-#: class-admin-core.php:306
+#: class-admin-core.php:310
 msgid "Google Tag Manager"
 msgstr "Gestor de Etiquetas de Google"
 
-#: class-admin-core.php:309
+#: class-admin-core.php:313
 msgid "Google Tag Manager: Header"
 msgstr "Gestor de Etiquetas de Google: Encabezado"
 
-#: class-admin-core.php:312
+#: class-admin-core.php:316
 msgid "Enter the GTM code for the header."
 msgstr "Ingrese el código GTM para el encabezado."
 
-#: class-admin-core.php:316
+#: class-admin-core.php:320
 msgid "Google Tag Manager: Body"
 msgstr "Gestor de Etiquetas de Google: Cuerpo"
 
-#: class-admin-core.php:319
+#: class-admin-core.php:323
 msgid "Enter the GTM code for the body."
 msgstr "Ingrese el código GTM para el cuerpo."
 
-#: class-admin-core.php:323
+#: class-admin-core.php:327
 msgid "Save Settings"
 msgstr "Guardar Configuración"
 
-#: class-admin-core.php:358
+#: class-admin-core.php:361
 msgid "AMA Site Essentials - Meta Description"
 msgstr "AMA Site Essentials - Descripción Meta"
 
-#: class-admin-core.php:374
+#: class-admin-core.php:377
 msgid "Meta Description:"
 msgstr "Descripción Meta:"
 
-#: class-admin-core.php:459
+#: class-admin-core.php:462
 #, php-format
 msgid ""
 "<strong>ERROR</strong>: You have reached authentication limit, you will be "
@@ -307,35 +313,35 @@ msgstr ""
 "<strong>ERROR</strong>: Ha alcanzado el límite de intentos de autenticación, "
 "podrá intentarlo de nuevo en %1$s."
 
-#: class-admin-core.php:489
+#: class-admin-core.php:492
 msgid "second"
 msgstr "segundo"
 
-#: class-admin-core.php:490
+#: class-admin-core.php:493
 msgid "minute"
 msgstr "minuto"
 
-#: class-admin-core.php:491
+#: class-admin-core.php:494
 msgid "hour"
 msgstr "hora"
 
-#: class-admin-core.php:492
+#: class-admin-core.php:495
 msgid "day"
 msgstr "día"
 
-#: class-admin-core.php:493
+#: class-admin-core.php:496
 msgid "week"
 msgstr "semana"
 
-#: class-admin-core.php:494
+#: class-admin-core.php:497
 msgid "month"
 msgstr "mes"
 
-#: class-admin-core.php:495
+#: class-admin-core.php:498
 msgid "year"
 msgstr "año"
 
-#: class-admin-core.php:510
+#: class-admin-core.php:513
 msgid "s"
 msgstr "s"
 

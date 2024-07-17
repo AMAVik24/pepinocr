@@ -252,7 +252,7 @@ class Admin_Core {
 						</td>
 					</tr>
 					<tr>
-						<th scope="row"><label for="ama_site_essentials_parent_theme_loading_method"><?php _e( 'Parent Theme Loading Method', 'ama-site-essentials' ); ?></label></th>
+						<th scope="row"><label for="ama_site_essentials_parent_theme_loading_method"><?php _e( 'Parent Theme Stylesheet Loading Method', 'ama-site-essentials' ); ?></label></th>
 						<td>
 							<?php
 							$selected_method = esc_attr( get_option( 'ama_site_essentials_parent_theme_loading_method' ) );
