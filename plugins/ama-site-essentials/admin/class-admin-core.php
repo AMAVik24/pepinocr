@@ -98,7 +98,11 @@ class Admin_Core {
 	
 			// Update email options
 			update_option( 'ama_site_essentials_smtp_username', sanitize_text_field( $_POST['ama_site_essentials_smtp_username'] ) );
-			update_option( 'ama_site_essentials_smtp_password', $this->my_encrypt( $_POST['ama_site_essentials_smtp_password'] ) ); // Encrypt password for security
+
+			//Check if there's a value on the form field. If there isn't, don't update the option to a null password.
+			if ($_POST['ama_site_essentials_smtp_password'] !== "" ) {
+				update_option( 'ama_site_essentials_smtp_password', $this->my_encrypt( $_POST['ama_site_essentials_smtp_password'] ) ); // Encrypt password for security
+				}
 			update_option( 'ama_site_essentials_smtp_sender', sanitize_text_field( $_POST['ama_site_essentials_smtp_sender'] ) );
 			update_option( 'ama_site_essentials_smtp_name', sanitize_text_field( $_POST['ama_site_essentials_smtp_name'] ) );
 			update_option( 'ama_site_essentials_smtp_server', sanitize_text_field( $_POST['ama_site_essentials_smtp_server'] ) );
@@ -106,8 +110,8 @@ class Admin_Core {
 			update_option( 'ama_site_essentials_smtp_secure', sanitize_text_field( $_POST['ama_site_essentials_smtp_secure'] ) );
 	
 			// Update Google Tag Manager options
-			update_option( 'ama_site_essentials_gtm_header_tag', sanitize_text_field( $_POST['ama_site_essentials_gtm_header_tag'] ) );
-			update_option( 'ama_site_essentials_gtm_body_tag', sanitize_text_field( $_POST['ama_site_essentials_gtm_body_tag'] ) );
+			update_option( 'ama_site_essentials_gtm_header_tag', stripslashes($_POST['ama_site_essentials_gtm_header_tag']) );
+			update_option( 'ama_site_essentials_gtm_body_tag',  stripslashes($_POST['ama_site_essentials_gtm_body_tag']) );
 		}
 		?>
 	
@@ -264,7 +268,7 @@ class Admin_Core {
 							<label for="method2">'get_stylesheet'</label><br>
 
 							<input type="radio" id="method3" name="ama_site_essentials_parent_theme_loading_method" value="both" <?php checked( 'both', $selected_method ); ?>>
-							<label for="method3"><?php _e( 'The parent theme loads both stylesheets', 'ama-site-essentials' ); ?></label>
+							<label for="method3"><?php _e( 'The parent theme loads both stylesheets', 'ama-site-essentials' ); ?></label><br>
 
 							<input type="radio" id="method4" name="ama_site_essentials_parent_theme_loading_method" value="none" <?php checked( 'none', $selected_method ); ?>>
 							<label for="method4"><?php _e( 'The parent theme doesn\'t load any stylesheets', 'ama-site-essentials' ); ?></label>
@@ -312,14 +316,14 @@ class Admin_Core {
 					<tr>
 						<th scope="row"><label for="ama_site_essentials_gtm_header_tag"><?php _e( 'Google Tag Manager: Header', 'ama-site-essentials' ); ?></label></th>
 						<td>
-							<textarea id="ama_site_essentials_gtm_header_tag" name="ama_site_essentials_gtm_header_tag" class="regular-text" rows="7" placeholder="<!-- Google Tag Manager -->\n<script>XXX</script>\n<!-- End Google Tag Manager -->"><?php echo esc_attr( get_option( 'ama_site_essentials_gtm_header_tag' ) ); ?></textarea>
+							<textarea id="ama_site_essentials_gtm_header_tag" name="ama_site_essentials_gtm_header_tag" class="regular-text" rows="7" placeholder="<!-- Google Tag Manager -->\n<script>XXX</script>\n<!-- End Google Tag Manager -->"><?php echo get_option( 'ama_site_essentials_gtm_header_tag' ); ?></textarea>
 							<p class="description"><?php _e( 'Enter the GTM code for the header.', 'ama-site-essentials' ); ?></p>
 						</td>
 					</tr>
 					<tr>
 						<th scope="row"><label for="ama_site_essentials_gtm_body_tag"><?php _e( 'Google Tag Manager: Body', 'ama-site-essentials' ); ?></label></th>
 						<td>
-							<textarea id="ama_site_essentials_gtm_body_tag" name="ama_site_essentials_gtm_body_tag" class="regular-text" rows="7" placeholder="<!-- Google Tag Manager (noscript) -->\n<noscript>XXX</noscript>\n<!-- End Google Tag Manager (noscript) -->"><?php echo esc_attr( get_option( 'ama_site_essentials_gtm_body_tag' ) ); ?></textarea>
+							<textarea id="ama_site_essentials_gtm_body_tag" name="ama_site_essentials_gtm_body_tag" class="regular-text" rows="7" placeholder="<!-- Google Tag Manager (noscript) -->\n<noscript>XXX</noscript>\n<!-- End Google Tag Manager (noscript) -->"><?php echo get_option( 'ama_site_essentials_gtm_body_tag' ) ; ?></textarea>
 							<p class="description"><?php _e( 'Enter the GTM code for the body.', 'ama-site-essentials' ); ?></p>
 						</td>
 					</tr>
